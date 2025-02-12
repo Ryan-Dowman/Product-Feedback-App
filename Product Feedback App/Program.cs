@@ -1,7 +1,23 @@
+using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+using Product_Feedback_App.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+Env.Load();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(Environment.GetEnvironmentVariable("DBCONNECTIONSTRING"));
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(Environment.GetEnvironmentVariable("AUTHDBCONNECTIONSTRING"));
+});
 
 var app = builder.Build();
 
