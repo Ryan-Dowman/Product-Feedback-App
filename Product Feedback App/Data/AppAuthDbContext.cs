@@ -59,7 +59,8 @@ namespace Product_Feedback_App.Data
                 NormalizedUserName = Environment.GetEnvironmentVariable("ADMINUSERNAME").ToUpper(),
                 Email = Environment.GetEnvironmentVariable("ADMINEMAIL"),
                 NormalizedEmail = Environment.GetEnvironmentVariable("ADMINEMAIL").ToUpper(),
-                Id = adminUserId
+                Id = adminUserId,
+                ProfilePictureUrl = "7a95e6c4-31da-4c14-8760-f5de479f1698.png"
             };
 
             adminUser.PasswordHash = new PasswordHasher<AppUser>().HashPassword(adminUser, Environment.GetEnvironmentVariable("ADMINPASSWORD"));
