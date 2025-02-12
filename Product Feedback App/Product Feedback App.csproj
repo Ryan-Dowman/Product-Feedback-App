@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Domain\" />
+    <Folder Include="Models\Identity\" />
+    <Folder Include="Models\View\" />
+    <Folder Include="Data\" />
     <Folder Include="wwwroot\images\icons\" />
     <Folder Include="wwwroot\images\profiles\" />
     <Folder Include="wwwroot\images\static\" />
