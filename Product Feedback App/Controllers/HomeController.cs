@@ -13,12 +13,14 @@ namespace Product_Feedback_App.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Roadmap()
         {
             return View();
         }
