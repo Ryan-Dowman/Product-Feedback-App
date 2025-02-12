@@ -17,5 +17,7 @@ namespace Product_Feedback_App.Models.Domain
         public Guid? ParentCommentId { get; set; }
 
         public Comment? ParentComment { get; set; }
+
+        public ICollection<Comment> Replies { get; set; }
     }
 }

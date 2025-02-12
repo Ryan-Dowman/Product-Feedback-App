@@ -14,7 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(Environment.GetEnvironmentVariable("DBCONNECTIONSTRING"));
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<AppAuthDbContext>(options =>
 {
     options.UseSqlServer(Environment.GetEnvironmentVariable("AUTHDBCONNECTIONSTRING"));
 });

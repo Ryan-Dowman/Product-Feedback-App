@@ -20,7 +20,7 @@ namespace Product_Feedback_App.Data
                 .Ignore(RelationalEventId.PendingModelChangesWarning));  // Suppress the warning
         }
 
-        protected async override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
@@ -64,6 +64,7 @@ namespace Product_Feedback_App.Data
             };
 
             adminUser.PasswordHash = new PasswordHasher<AppUser>().HashPassword(adminUser, Environment.GetEnvironmentVariable("ADMINPASSWORD"));
+            builder.Entity<AppUser>().HasData(adminUser);
 
             // Seed Admin User Role Data
             List<IdentityUserRole<string>> adminUserRoles = new List<IdentityUserRole<string>>

@@ -12,6 +12,7 @@
     <Folder Include="wwwroot\images\icons\" />
     <Folder Include="wwwroot\images\profiles\" />
     <Folder Include="wwwroot\images\static\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
   <ItemGroup>
