@@ -1,3 +1,18 @@
+/* Variables */
+:root {
+    --purple: #AD1FEA;
+    --orange: #F49F85;
+    --blue: #4661E6;
+    --lightblue: #62BCFA;
+    --steelblue: #4661E6;
+    --light-steel-blue: #3A4374;
+    --blue-grey: #647196;
+    --lightgrey: #F2F4FF;
+    --utlra-lightgrey: #F7F8FD;
+    
+    --gradient-background: radial-gradient(circle, rgba(232,77,112,1) 0%, rgba(163,55,246,1) 53%, rgba(40,167,237,1) 100%);
+}
+
 /* Fonts */
 @font-face {
     font-family: 'Jost';
@@ -22,13 +37,155 @@ html{
     font-family: 'Jost', sans-serif;
 }
 
+body{
+    display: flex;
+    justify-content: center;
+    background-color: var(--utlra-lightgrey);
+}
+
+a{
+    color: var(--blue);
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
 /* Home Page Styles */
 #homeContainer{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     width: 100%;
+    max-width: 1100px;
     height: 100%;
+    gap: 30px;
+
+    margin-top: 95px;
+}
+
+#homeLHS {
+    display: grid;
+    gap: 24px;
+    max-width: 255px;
+    grid-template-rows: min-content min-content min-content min-content;
+}
+
+#homeRHS {
+    
+}
+
+.widget{
+    width: 100%;
+    padding: 24px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+#titleWidget {
+    background: var(--gradient-background);
+    background-size: 200% 200%;
+    height: 137px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+#titleTextContainer > p:nth-child(1){
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+}
+
+#titleTextContainer > p:nth-child(2) {
+    font-size: 15px;
+    opacity: 0.75;
+    color: white;
+}
+
+#categoriesWidget{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 8px;
+}
+
+.category {
+    padding: 10px 17px;
+    background-color: var(--lightgrey);
+    color: var(--blue);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    width: min-content;
+    height: auto;
+    border-radius: 10px;
+}
+
+.categoryOn {
+    color: white !important;
+    background-color: var(--blue) !important;
+}
+
+.widgetHeader{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.widgetHeaderText{
+    color: var(--light-steel-blue);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#roadmapTrackerContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.roadmapTracker {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--blue-grey);
+}
+
+.roadmapTrackerLHS{
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    font-size: 16px;
+}
+
+.roadmapTrackerLHS > span {
+    height: 8px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
+
+.roadmapTracker:nth-child(1) span {
+    background-color: var(--orange);
+}
+
+.roadmapTracker:nth-child(2) span {
+    background-color: var(--purple);
+}
+
+.roadmapTracker:nth-child(3) span {
+    background-color: var(--lightblue);
+}
+
+.roadmapTrackerValue{
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Home Page Responsive Styles */

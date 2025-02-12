@@ -4,10 +4,45 @@
 
 <div id="homeContainer">
     <div id="homeLHS">
-        <div id="titleWidget"></div>
-        <div id="categoriesWidget"></div>
-        <div id="roadmapWidget"></div>
-        <div id="userWidget"></div>
+        <div class="widget" id="titleWidget">
+            <div id="titleTextContainer">
+                <p>Frontend Mentor</p>
+                <p>Feedback Board</p>
+            </div>
+        </div>
+        <div class="widget" id="categoriesWidget">
+            <div class="category categoryOn">All</div>
+            <div class="category">UI</div>
+            <div class="category">UX</div>
+            <div class="category">Enhancement</div>
+            <div class="category">Bug</div>
+            <div class="category">Feature</div>
+        </div>
+        <div class="widget" id="roadmapWidget">
+            <div class="widgetHeader">
+                <p class="widgetHeaderText">Roadmap</p>
+                <a>View</a>
+            </div>
+            <div id="roadmapTrackerContainer">
+                <div class="roadmapTracker">
+                    <div class="roadmapTrackerLHS"><span></span>Planned</div>
+                    <p class="roadmapTrackerValue">2</p>
+                </div>
+                <div class="roadmapTracker">
+                    <div class="roadmapTrackerLHS"><span></span>In-Progress</div>
+                    <p class="roadmapTrackerValue">3</p>
+                </div>
+                <div class="roadmapTracker">
+                    <div class="roadmapTrackerLHS"><span></span>Live</div>
+                    <p class="roadmapTrackerValue">1</p>
+                </div>
+            </div>
+        </div>
+        <div class="widget" id="userWidget">
+            <div class="widgetHeader">
+                <p class="widgetHeaderText">Logged In As</p>
+            </div>
+        </div>
     </div>
     <div id="homeRHS">
         <div id="feedbackBanner"></div>
