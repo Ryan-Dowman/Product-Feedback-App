@@ -41,12 +41,28 @@
         <div class="widget" id="userWidget">
             <div class="widgetHeader">
                 <p class="widgetHeaderText">Logged In As</p>
-                <div id="userLoggedInContainer"></div>
+            </div>
+            <div id="userLoggedInContainer">
+                <img src="/images/profiles/7a95e6c4-31da-4c14-8760-f5de479f1698.png" class="pfp" alt="Profile Picture" />
+                <p>John Smith</p>
+                <button>Logout</button>
             </div>
         </div>
     </div>
     <div id="homeRHS">
-        <div id="feedbackBanner"></div>
+        <div id="feedbackBanner">
+            <img id="suggestionIcon" src="/images/icons/suggestion.svg" alt="Suggestion Icon"/>
+            <p id="suggestionCount">6 Suggestions</p>
+            <div class="filterSelect">
+                <select id="sortBy">
+                    <option value="Most Upvotes">Most Upvotes</option>
+                    <option value="Least Upvotes">Least Upvotes</option>
+                    <option value="Most Comments">Most Comments</option>
+                    <option value="Least Comments">Least Comments</option>
+                </select>
+            </div>
+            <button id="addFeedbackButton">+ Feedback</button>
+        </div>
         <div id="feedbackContainer"></div>
     </div>
 </div>
