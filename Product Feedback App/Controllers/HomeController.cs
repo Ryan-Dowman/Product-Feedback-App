@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Product_Feedback_App.Models;
+using Product_Feedback_App.Models.Domain;
+using Product_Feedback_App.Models.View;
 using System.Diagnostics;
 
 namespace Product_Feedback_App.Controllers
@@ -16,7 +18,7 @@ namespace Product_Feedback_App.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(new List<Feedback>());
         }
 
         [HttpGet]

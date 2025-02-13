@@ -29,7 +29,6 @@
 
 html, body {
     height: 100%;
-    body: 100%;
 }
 
 html {
@@ -274,4 +273,108 @@ a {
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr;
     }
+}
+
+/* Create Feedback Page */
+.formPageContainer {
+    width: 100%;
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    padding: 90px 20px 20px 20px;
+}
+
+.form {
+    background-color: white;
+    position: relative;
+    padding: 43px 60px;
+    border-radius: 10px;
+}
+
+.form h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light-steel-blue);
+}
+
+.formCircle {
+    height: 56px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--gradient-background);
+    background-size: 200% 200%;
+    transform: translateY(-50%) rotate(-90deg);
+    position: absolute;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back {
+    text-decoration: none;
+    color: var(--blue-grey);
+    font-size: 14px;
+}
+
+.back:before {
+    content: "";
+    display: inline-block;
+    margin-right: 16px;
+    height: 9px;
+    width: 5px;
+    background-image: url(/images/icons/backArrow.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.back:hover {
+    text-decoration: underline;
+}
+
+.formInputContainers {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.formInputLabelContainer {
+    margin-bottom: 30px;
+}
+
+.labelPrimary {
+    color: var(--steelblue);
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10pxx;
+}
+
+.labelSecondary {
+    color: var(--blue-grey);
+    display: block;
+    font-size: 14px;
+}
+
+.formInputLabelContainer input, textarea {
+    width: 100%;
+    padding: 18px 24px;
+    color: var(--steelblue);
+    background-color: var(--utlra-lightgrey);
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: transparent 1px solid;
+}
+
+textarea {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.formInputLabelContainer input:focus-visible, textarea:focus-visible {
+    border-color: var(--blue) !important;
+    outline: none !important;
 }

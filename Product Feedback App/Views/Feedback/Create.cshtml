@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Product_Feedback_App.Models.View.FeedbackCreateViewModel
 @{
 }
+
+<div class="formPageContainer">
+    <a class="back">Go Back</a>
+    <form class="form" method="post">
+        <div class="formCircle">
+            <img src="/images/icons/plus.svg" alt="Create Feedback" />
+        </div>
+        <h2>Create New Feedback</h2>
+        <div class="formInputContainers">
+            <div class="formInputLabelContainer">
+                <label for="feedbackTitle" class="labelPrimary">Feedback Title</label>
+                <label for="feedbackTitle" class="labelSecondary">Add a short, descriptive headline</label>
+                <input id="feedbackTitle" type="text" autocomplete="off" />
+                <span></span>
+            </div>
+
+            <div class="formInputLabelContainer">
+                <label for="category" class="labelPrimary">Category</label>
+                <label for="category" class="labelSecondary">Choose a category for your feedback</label>
+                <input id="category" type="text" autocomplete="off" />
+                <span></span>
+            </div>
+
+            <div class="formInputLabelContainer">
+                <label for="feedbackDetail" class="labelPrimary">Feedback Detail</label>
+                <label for="feedbackDetail" class="labelSecondary">Include any specific comments on what should be improved, added, etc.</label>
+                <textarea id="feedbackDetail" autocomplete="off"></textarea>
+                <span></span>
+            </div>
+        </div>
+    </form>
+</div>
