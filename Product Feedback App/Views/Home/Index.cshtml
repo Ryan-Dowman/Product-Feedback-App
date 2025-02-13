@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Product_Feedback_App.Models.Domain
+@model IEnumerable<Product_Feedback_App.Models.Domain.Feedback>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -61,8 +63,23 @@
                     <option value="Least Comments">Least Comments</option>
                 </select>
             </div>
-            <button id="addFeedbackButton">+ Feedback</button>
+            <button id="addFeedbackButton" class="purpleButton">+ Add Feedback</button>
         </div>
-        <div id="feedbackContainer"></div>
+        <div id="feedbackContainer">
+            @if (Model != null || Model.Any())
+            {
+                foreach (Feedback feedback in Model)
+                {
+                    <div class="feedback">
+                        <div class="feedbackLHS"></div>
+                        <div class="feedbackRHS"></div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div id="noFeedbackContainer"></div>
+            }
+        </div>
     </div>
 </div>

@@ -57,10 +57,10 @@ a {
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
     width: 100%;
-    max-width: 1140px;
+    max-width: 1300px;
     max-height: 100%;
     gap: 30px;
-    padding: 0px 20px;
+    padding: 0px 20px 20px 20px;
     margin-top: 95px;
 }
 
@@ -72,7 +72,10 @@ a {
 }
 
 #homeRHS {
-    
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 24px;
+    overflow-x: scroll;
 }
 
 .widget {
@@ -238,29 +241,31 @@ a {
     margin-right: 35px;
 }
 
-.filterSelect {
-    position: relative;
-}
-
-.filterSelect select {
-    display: none;
-}
-
-.filterSelect:after {
-    position: absolute;
-    content: "";
-    height: 5px;
-    width: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-image: url(/images/icons/downArrow.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
 #addFeedbackButton {
     margin-left: auto;
+}
+
+.purpleButton {
+    all: unset;
+    cursor: pointer;
+    background-color: var(--purple);
+    padding: 14px 24px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+    height: auto;
+    transition: background-color ease 0.15s;
+}
+
+.purpleButton:hover {
+    background-color: #C75AF6
+}
+
+#feedbackContainer{
+    height: 100%;
+    width: 100%;
+    background-color: white;
 }
 
 /* Home Page Responsive Styles */
