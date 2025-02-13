@@ -382,7 +382,7 @@ textarea {
 /* Custom Select Styles */
 .custom-select {
     position: relative;
-    font-family: Arial;
+    width: 100%;
 }
 
 .custom-select select {
@@ -393,18 +393,22 @@ textarea {
     background-color: var(--utlra-lightgrey);
     border-color: transparent;
     outline: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Style the arrow inside the select element: */
 .select-selected:after {
-    position: absolute;
     content: "";
-    top: 14px;
-    right: 10px;
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-color: red transparent transparent transparent;
+    display: block;
+    width: 10px;
+    height: 5px;
+    background-image: url(/images/icons/downArrowBlue.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: 0.15s ease transform;
 }
 
 .select-arrow-active {
@@ -413,8 +417,7 @@ textarea {
 
 /* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
-    border-color: transparent transparent red transparent;
-    top: 7px;
+    transform: rotate(180deg);
 }
 
 /* style the items (options), including the selected item: */
@@ -435,6 +438,11 @@ textarea {
     border-bottom: 1px solid #E2E3EA;
     padding: 15px 26px;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    
 }
 
 /* Style items (options): */
