@@ -204,9 +204,8 @@ textarea {
     margin-left: 8px;
 }
 
-#userLoggedInContainer > button {
+#userLoggedInContainer  button {
     all: unset;
-    margin-left: auto;
     padding: 7px 17px;
     background-color: var(--purple);
     color: white;
@@ -216,6 +215,7 @@ textarea {
     width: min-content;
     height: auto;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .pfp {

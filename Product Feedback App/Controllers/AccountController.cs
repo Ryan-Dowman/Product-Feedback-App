@@ -9,10 +9,12 @@ namespace Product_Feedback_App.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
 
-        public AccountController(SignInManager<AppUser> signInManager)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
             this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -36,6 +38,60 @@ namespace Product_Feedback_App.Controllers
                 return View();
             }
 
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(AccountRegisterViewModel accountRegisterViewModel)
+        {
+            if (!ModelState.IsValid) return View();
+
+            bool usernameTaken = await UsernameTaken(accountRegisterViewModel.Username);
+            bool emailTaken = await EmailTaken(accountRegisterViewModel.Email);
+
+            if (usernameTaken || emailTaken)
+            {
+                if (usernameTaken) ModelState.AddModelError("Username", "Username is taken");
+                if (emailTaken) ModelState.AddModelError("Username", "Username is taken");
+
+                return View();
+            }
+
+            AppUser user = new AppUser
+            {
+                UserName = accountRegisterViewModel.Username,
+                NormalizedUserName = accountRegisterViewModel.Username.ToUpper(),
+                Email = accountRegisterViewModel.Email,
+                NormalizedEmail = accountRegisterViewModel.Email.ToUpper()
+            };
+
+            user.PasswordHash = userManager.PasswordHasher.HashPassword(user, accountRegisterViewModel.Password);
+
+            await userManager.CreateAsync(user);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<bool> UsernameTaken(string username)
+        {
+            return (await userManager.FindByNameAsync(username)) != null;
+        }
+
+        public async Task<bool> EmailTaken(string email)
+        {
+            return (await userManager.FindByEmailAsync(email)) != null;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }

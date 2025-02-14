@@ -1,7 +1,7 @@
-﻿@model Product_Feedback_App.Models.View.AccountLoginViewModel
+﻿@model Product_Feedback_App.Models.View.AccountRegisterViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
 <div class="formPageContainer">
@@ -18,14 +18,19 @@
                 <span asp-validation-for="Username"></span>
             </div>
             <div class="formInputLabelContainer">
+                <label for="email" class="labelPrimary">Email</label>
+                <input id="email" type="text" autocomplete="off" asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="formInputLabelContainer">
                 <label for="password" class="labelPrimary">Password</label>
-                <input typeof="password" id="password" type="text" autocomplete="off" asp-for="Password" />
+                <input type="password" id="password" type="text" autocomplete="off" asp-for="Password" />
                 <span asp-validation-for="Password"></span>
             </div>
         </div>
         <div class="formButtons">
-            <button class="button grey">Register</button>
-            <button class="button purple" type="submit">Login</button>
+            <button class="button grey">Login</button>
+            <button class="button purple" type="submit">Register</button>
         </div>
     </form>
 </div>
