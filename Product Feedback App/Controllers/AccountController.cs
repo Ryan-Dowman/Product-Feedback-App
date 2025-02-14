@@ -58,7 +58,7 @@ namespace Product_Feedback_App.Controllers
             if (usernameTaken || emailTaken)
             {
                 if (usernameTaken) ModelState.AddModelError("Username", "Username is taken");
-                if (emailTaken) ModelState.AddModelError("Username", "Username is taken");
+                if (emailTaken) ModelState.AddModelError("Email", "Email is taken");
 
                 return View();
             }

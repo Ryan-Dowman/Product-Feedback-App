@@ -5,7 +5,6 @@
 }
 
 <div class="formPageContainer">
-    <a asp-controller="Home" asp-action="Index" class="back">Go Back</a>
     <form class="form" method="post">
         <div class="formCircle">
             <img src="/images/icons/profile.svg" alt="Profile" />
@@ -19,12 +18,12 @@
             </div>
             <div class="formInputLabelContainer">
                 <label for="password" class="labelPrimary">Password</label>
-                <input typeof="password" id="password" type="text" autocomplete="off" asp-for="Password" />
+                <input type="password" id="password" autocomplete="off" asp-for="Password" />
                 <span asp-validation-for="Password"></span>
             </div>
         </div>
         <div class="formButtons">
-            <button class="button grey">Register</button>
+            <a class="invisible" asp-controller="Account" asp-action="Register"><button type="button" class="button grey">Register</button></a>
             <button class="button purple" type="submit">Login</button>
         </div>
     </form>

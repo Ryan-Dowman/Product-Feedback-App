@@ -25,6 +25,7 @@ builder.Services.AddDbContext<AppAuthDbContext>(options =>
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppAuthDbContext>();
 
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
