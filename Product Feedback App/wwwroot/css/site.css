@@ -398,6 +398,19 @@ textarea {
     justify-content: space-between;
 }
 
+/* Style when selected */
+.same-as-selected::after {
+    content: "";
+    display: block;
+    height: 9px;
+    width: 13px;
+    background-image: url(/images/icons/purpleTick.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}
+
 /* Style the arrow inside the select element: */
 .select-selected:after {
     content: "";
