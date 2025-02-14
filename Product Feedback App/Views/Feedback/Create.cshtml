@@ -18,10 +18,10 @@
             </div>
 
             <div class="formInputLabelContainer">
-                <label for="select" class="labelPrimary">Category</label>
-                <label for="category" class="labelSecondary">Choose a category for your feedback</label>
-                <div class="custom-select">
-                    <select id="select">
+                <label for="categorySelect" class="labelPrimary">Category</label>
+                <label for="categorySelect" class="labelSecondary">Choose a category for your feedback</label>
+                <div class="custom-select" id="categorySelect">
+                    <select>
                         <option value="1">Feature</option>
                         <option value="2">UI</option>
                         <option value="3">UX</option>
@@ -44,7 +44,7 @@
 
 @section Scripts {
     <script>
-        // Need to find labels and apply event listeners to them as well 
+        
         let customSelects = document.getElementsByClassName("custom-select");
 
         for (let customSelect of customSelects) {
@@ -60,6 +60,29 @@
 
             let selectOptionsDiv = document.createElement("div");
             selectOptionsDiv.classList.add("select-items", "select-hide");
+
+            let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
+            console.log(targetLabels);
+
+            for (let label of targetLabels) {
+                label.addEventListener("click", (event) => {
+                    event.preventDefault()
+
+                    let customSelect = document.getElementById(event.target.htmlFor)
+                    if (!customSelect) return
+
+                    let selectedDiv = customSelect.querySelector(".select-selected")
+                    let optionsDiv = customSelect.querySelector(".select-items")
+
+                    if (selectedDiv && optionsDiv) {
+                        event.stopPropagation()
+                        closeAllSelect(selectedDiv)
+
+                        optionsDiv.classList.toggle("select-hide")
+                        selectedDiv.classList.toggle("select-arrow-active")
+                    }
+                });
+            }
 
             for (let selectOptionIndex in Array.from(selectElement.children)) {
                 let selectOption = selectElement[selectOptionIndex];
@@ -86,27 +109,35 @@
         }
 
         function closeAllSelect(element) {
-            var x, y, i, xl, yl, arrNo = [];
-            x = document.getElementsByClassName("select-items");
-            y = document.getElementsByClassName("select-selected");
-            xl = x.length;
-            yl = y.length;
-            for (i = 0; i < yl; i++) {
-                if (element == y[i]) {
-                    arrNo.push(i)
-                } else {
-                    y[i].classList.remove("select-arrow-active");
+            
+            let selectItems = document.getElementsByClassName("select-items");
+            let selectedItems = document.getElementsByClassName("select-selected");
+            let elementIndexArray = [];
+
+
+            for (let targetElementIndex in Array.from(selectedItems)) {
+                
+                let targetElement = selectedItems[targetElementIndex];
+                
+                if (targetElement == element) {
+                    elementIndexArray.push(targetElementIndex);
+                }else{
+                    targetElement.classList.remove("-arrow-active");
                 }
             }
-            for (i = 0; i < xl; i++) {
-                if (arrNo.indexOf(i)) {
-                    x[i].classList.add("select-hide");
+
+            for (let targetElementIndex in Array.from(selectItems)) {
+
+                let targetElement = selectItems[targetElementIndex];
+
+                if (elementIndexArray.indexOf(targetElementIndex)) {
+                    targetElement.classList.add("select-hide");
                 }
             }
         }
 
-        function customOptionSelect(event) {
-            let targetNode = event.target;
+        function customOptionSelect(event, overrideElement) {
+            let targetNode = overrideElement == null ? event.target : overrideElement;
 
             let parentSelect = targetNode.parentNode.parentNode.getElementsByTagName("select")[0];
             let currentlySelectedDiv = targetNode.parentNode.previousSibling;
@@ -116,7 +147,6 @@
                 let selectOption = parentSelect[selectOptionIndex];
                 
                 if (selectOption.innerText == targetNode.innerText) {
-                    console.log("found value!");
 
                     parentSelect.selectedIndex = selectOptionIndex;
                     currentlySelectedDiv.innerText = targetNode.innerText;
@@ -136,80 +166,5 @@
         }
 
         document.addEventListener("click", closeAllSelect);
-
-        // a = new selected item
-        // b = new div in option list
-
-        /*
-        var x, i, j, l, ll, selElmnt, a, b, c;
-        x = document.getElementsByClassName("custom-select");
-        l = x.length;
-        for (i = 0; i < l; i++) {
-          selElmnt = x[i].getElementsByTagName("select")[0];
-          ll = selElmnt.length;
-          a = document.createElement("DIV");
-          a.setAttribute("class", "select-selected");
-          a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-          x[i].appendChild(a);
-          b = document.createElement("DIV");
-          b.setAttribute("class", "select-items select-hide");
-          for (j = 1; j < ll; j++) {
-            
-            
-            c = document.createElement("DIV");
-            c.innerHTML = selElmnt.options[j].innerHTML;
-            c.addEventListener("click", function(e) {
-              
-                var y, i, k, s, h, sl, yl;
-                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                sl = s.length;
-                h = this.parentNode.previousSibling;
-                for (i = 0; i < sl; i++) {
-                  if (s.options[i].innerHTML == this.innerHTML) {
-                    s.selectedIndex = i;
-                    h.innerHTML = this.innerHTML;
-                    y = this.parentNode.getElementsByClassName("same-as-selected");
-                    yl = y.length;
-                    for (k = 0; k < yl; k++) {
-                      y[k].removeAttribute("class");
-                    }
-                    this.setAttribute("class", "same-as-selected");
-                    break;
-                  }
-                }
-                h.click();
-            });
-            b.appendChild(c);
-          }
-          x[i].appendChild(b);
-          a.addEventListener("click", function(e) {
-              
-              e.stopPropagation();
-              closeAllSelect(this);
-              this.nextSibling.classList.toggle("select-hide");
-              this.classList.toggle("select-arrow-active");
-            });
-        }
-        function closeAllSelect(elmnt) {
-          
-          var x, y, i, xl, yl, arrNo = [];
-          x = document.getElementsByClassName("select-items");
-          y = document.getElementsByClassName("select-selected");
-          xl = x.length;
-          yl = y.length;
-          for (i = 0; i < yl; i++) {
-            if (elmnt == y[i]) {
-              arrNo.push(i)
-            } else {
-              y[i].classList.remove("select-arrow-active");
-            }
-          }
-          for (i = 0; i < xl; i++) {
-            if (arrNo.indexOf(i)) {
-              x[i].classList.add("select-hide");
-            }
-          }
-        }
-        document.addEventListener("click", closeAllSelect);*/
     </script>
 }
