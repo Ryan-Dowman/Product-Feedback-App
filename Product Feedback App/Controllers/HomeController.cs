@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Product_Feedback_App.Models;
 using Product_Feedback_App.Models.Domain;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace Product_Feedback_App.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

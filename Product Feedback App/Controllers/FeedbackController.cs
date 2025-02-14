@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Product_Feedback_App.Models.Domain;
 using Product_Feedback_App.Models.Enums;
@@ -8,6 +9,7 @@ using Product_Feedback_App.Respositories;
 
 namespace Product_Feedback_App.Controllers
 {
+    [Authorize]
     public class FeedbackController : Controller
     {
         private readonly IFeedbackRepository feedbackRepository;

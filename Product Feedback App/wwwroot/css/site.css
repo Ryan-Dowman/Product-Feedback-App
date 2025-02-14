@@ -328,6 +328,10 @@ textarea {
     justify-content: center;
 }
 
+.formCircle img {
+    transform: rotate(90deg);
+}
+
 .back {
     text-decoration: none;
     color: var(--blue-grey);
