@@ -374,7 +374,7 @@ textarea {
     min-width: 100%;
 }
 
-.formInputLabelContainer input:focus-visible, textarea:focus-visible {
+.formInputLabelContainer input:focus, textarea:focus {
     border-color: var(--blue) !important;
     outline: none !important;
 }

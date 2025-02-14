@@ -22,11 +22,11 @@
                 <label for="categorySelect" class="labelSecondary">Choose a category for your feedback</label>
                 <div class="custom-select" id="categorySelect">
                     <select>
-                        <option value="1">Feature</option>
-                        <option value="2">UI</option>
-                        <option value="3">UX</option>
-                        <option value="4">Enhancement</option>
-                        <option value="5">Bug</option>
+                        <option value="a">Feature</option>
+                        <option value="b">UI</option>
+                        <option value="b">UX</option>
+                        <option value="d">Enhancement</option>
+                        <option value="e">Bug</option>
                     </select>
                 </div>
                 <span></span>
@@ -109,7 +109,7 @@
         }
 
         function closeAllSelect(element) {
-            
+
             let selectItems = document.getElementsByClassName("select-items");
             let selectedItems = document.getElementsByClassName("select-selected");
             let elementIndexArray = [];
@@ -122,7 +122,7 @@
                 if (targetElement == element) {
                     elementIndexArray.push(targetElementIndex);
                 }else{
-                    targetElement.classList.remove("-arrow-active");
+                    targetElement.classList.remove("select-arrow-active");
                 }
             }
 
