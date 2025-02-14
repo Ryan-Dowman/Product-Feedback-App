@@ -50,6 +50,10 @@ a {
     cursor: pointer;
 }
 
+textarea {
+    font-family: 'Jost', sans-serif;
+}
+
 /* Home Page Styles */
 #homeContainer {
     display: grid;
@@ -353,6 +357,15 @@ a {
 
 .formInputLabelContainer {
     margin-bottom: 30px;
+}
+
+.formInputLabelContainer span {
+    color: red;
+    font-size: 14px;
+}
+
+.input-validation-error {
+    border-color: red !important;
 }
 
 .labelPrimary {

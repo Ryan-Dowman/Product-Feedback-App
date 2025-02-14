@@ -13,35 +13,34 @@
             <div class="formInputLabelContainer">
                 <label for="feedbackTitle" class="labelPrimary">Feedback Title</label>
                 <label for="feedbackTitle" class="labelSecondary">Add a short, descriptive headline</label>
-                <input id="feedbackTitle" type="text" autocomplete="off" />
-                <span></span>
+                <input id="feedbackTitle" type="text" autocomplete="off" asp-for="Title" />
+                <span asp-validation-for="Title"></span>
             </div>
 
             <div class="formInputLabelContainer">
                 <label for="categorySelect" class="labelPrimary">Category</label>
                 <label for="categorySelect" class="labelSecondary">Choose a category for your feedback</label>
                 <div class="customSelect" id="categorySelect">
-                    <select>
-                        <option value="a">Feature</option>
-                        <option value="b">UI</option>
-                        <option value="b">UX</option>
-                        <option value="d">Enhancement</option>
-                        <option value="e">Bug</option>
+                    <select asp-for="Category">
+                        <option value="Feature">Feature</option>
+                        <option value="UI">UI</option>
+                        <option value="UX">UX</option>
+                        <option value="Enhancement">Enhancement</option>
+                        <option value="Bug">Bug</option>
                     </select>
                 </div>
-                <span></span>
             </div>
 
             <div class="formInputLabelContainer">
                 <label for="feedbackDetail" class="labelPrimary">Feedback Detail</label>
                 <label for="feedbackDetail" class="labelSecondary">Include any specific comments on what should be improved, added, etc.</label>
-                <textarea id="feedbackDetail" autocomplete="off"></textarea>
-                <span></span>
+                <textarea id="feedbackDetail" autocomplete="off" asp-for="Details"></textarea>
+                <span asp-validation-for="Details"></span>
             </div>
         </div>
         <div class="formButtons">
             <button class="button grey">Cancel</button>
-            <button class="button purple">Add Feedback</button>
+            <button class="button purple" type="submit">Add Feedback</button>
         </div>
     </form>
 </div>

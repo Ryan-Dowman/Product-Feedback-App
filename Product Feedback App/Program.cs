@@ -1,6 +1,9 @@
 using DotNetEnv;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Product_Feedback_App.Data;
+using Product_Feedback_App.Models.Identity;
+using Product_Feedback_App.Respositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,10 @@ builder.Services.AddDbContext<AppAuthDbContext>(options =>
 {
     options.UseSqlServer(Environment.GetEnvironmentVariable("AUTHDBCONNECTIONSTRING"));
 });
+
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppAuthDbContext>();
+
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 
 var app = builder.Build();
 
