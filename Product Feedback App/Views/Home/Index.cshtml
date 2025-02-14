@@ -63,7 +63,7 @@
                     <option value="Least Comments">Least Comments</option>
                 </select>
             </div>
-            <button id="addFeedbackButton" class="purpleButton">+ Add Feedback</button>
+            <a class="invisible" style="margin-left: auto;" asp-controller="Feedback" asp-action="Create"><button class="button purple">+ Add Feedback</button></a>
         </div>
         <div id="feedbackContainer">
             @if (Model != null || Model.Any())

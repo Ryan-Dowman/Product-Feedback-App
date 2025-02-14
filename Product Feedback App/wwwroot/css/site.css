@@ -240,16 +240,10 @@ a {
     margin-right: 35px;
 }
 
-#addFeedbackButton {
-    margin-left: auto;
-}
-
-.purpleButton {
+.button {
     all: unset;
     cursor: pointer;
-    background-color: var(--purple);
     padding: 14px 24px;
-    color: white;
     font-size: 14px;
     font-weight: bold;
     border-radius: 10px;
@@ -257,14 +251,32 @@ a {
     transition: background-color ease 0.15s;
 }
 
-.purpleButton:hover {
+.button.purple {
+    background-color: var(--purple);
+    color: white;
+}
+
+.button.purple:hover {
     background-color: #C75AF6
+}
+
+.button.grey {
+    background-color: var(--light-steel-blue);
+    color: white;
+}
+
+.button.grey:hover {
+    background-color: #656EA3
 }
 
 #feedbackContainer{
     height: 100%;
     width: 100%;
     background-color: white;
+}
+
+.invisible{
+    all: unset;
 }
 
 /* Home Page Responsive Styles */
@@ -357,7 +369,7 @@ a {
     font-size: 14px;
 }
 
-.formInputLabelContainer input, textarea, .select-selected {
+.formInputLabelContainer input, textarea, .selectSelected {
     width: 100%;
     padding: 18px 24px;
     color: var(--steelblue);
@@ -379,17 +391,23 @@ textarea {
     outline: none !important;
 }
 
-/* Custom Select Styles */
-.custom-select {
+.formButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.customSelect {
     position: relative;
     width: 100%;
 }
 
-.custom-select select {
+.customSelect select {
     display: none;
 }
 
-.select-selected {
+.selectSelected {
     background-color: var(--utlra-lightgrey);
     border-color: transparent;
     outline: none !important;
@@ -398,8 +416,7 @@ textarea {
     justify-content: space-between;
 }
 
-/* Style when selected */
-.same-as-selected::after {
+.customSelected::after {
     content: "";
     display: block;
     height: 9px;
@@ -411,8 +428,7 @@ textarea {
 
 }
 
-/* Style the arrow inside the select element: */
-.select-selected:after {
+.selectSelected:after {
     content: "";
     display: block;
     width: 10px;
@@ -424,30 +440,28 @@ textarea {
     transition: 0.15s ease transform;
 }
 
-.select-arrow-active {
+.selectArrowActive {
     border-color: var(--blue);
 }
 
-/* Point the arrow upwards when the select box is open (active): */
-.select-selected.select-arrow-active:after {
+.selectSelected.selectArrowActive:after {
     transform: rotate(180deg);
 }
 
-/* style the items (options), including the selected item: */
-.select-items div, .select-selected {
+.selectItems div, .selectSelected {
     color: var(--steelblue);
     cursor: pointer;
 }
 
-.select-items div:first-child {
+.selectItems div:first-child {
     border-radius: 10px 10px 0px 0px;
 }
 
-.select-items div:last-child {
+.selectItems div:last-child {
     border-radius: 0px 0px 10px 10px;
 }
 
-.select-items div {
+.selectItems div {
     border-bottom: 1px solid #E2E3EA;
     padding: 15px 26px;
     font-size: 16px;
@@ -458,8 +472,7 @@ textarea {
     
 }
 
-/* Style items (options): */
-.select-items {
+.selectItems {
     position: absolute;
     background-color: white;
     top: 100%;
@@ -471,11 +484,10 @@ textarea {
     margin-top: 10px;
 }
 
-/* Hide the items when the select box is closed: */
-.select-hide {
+.selectHide {
     display: none;
 }
 
-.select-items div:hover, .same-as-selected {
+.selectItems div:hover, .customSelected {
     color: var(--purple);
 }

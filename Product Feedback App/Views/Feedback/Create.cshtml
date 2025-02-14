@@ -3,7 +3,7 @@
 }
 
 <div class="formPageContainer">
-    <a class="back">Go Back</a>
+    <a asp-controller="Home" asp-action="Index" class="back">Go Back</a>
     <form class="form" method="post">
         <div class="formCircle">
             <img src="/images/icons/plus.svg" alt="Create Feedback" />
@@ -20,7 +20,7 @@
             <div class="formInputLabelContainer">
                 <label for="categorySelect" class="labelPrimary">Category</label>
                 <label for="categorySelect" class="labelSecondary">Choose a category for your feedback</label>
-                <div class="custom-select" id="categorySelect">
+                <div class="customSelect" id="categorySelect">
                     <select>
                         <option value="a">Feature</option>
                         <option value="b">UI</option>
@@ -39,31 +39,31 @@
                 <span></span>
             </div>
         </div>
+        <div class="formButtons">
+            <button class="button grey">Cancel</button>
+            <button class="button purple">Add Feedback</button>
+        </div>
     </form>
 </div>
 
 @section Scripts {
     <script>
-        // Change classes
-        // Ensure default is working and get ticks
-        let customSelects = document.getElementsByClassName("custom-select");
+        let customSelects = document.getElementsByClassName("customSelect");
 
         for (let customSelect of customSelects) {
-            console.log(customSelect);
 
             let selectElement = customSelect.getElementsByTagName("select")[0];
 
             let selectedDiv = document.createElement("div");
-            selectedDiv.classList.add("select-selected");
+            selectedDiv.classList.add("selectSelected");
             selectedDiv.innerText = selectElement.options[selectElement.selectedIndex].innerText;
 
             customSelect.appendChild(selectedDiv);
 
             let selectOptionsDiv = document.createElement("div");
-            selectOptionsDiv.classList.add("select-items", "select-hide");
+            selectOptionsDiv.classList.add("selectItems", "selectHide");
 
             let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
-            console.log(targetLabels);
 
             for (let label of targetLabels) {
                 label.addEventListener("click", (event) => {
@@ -72,15 +72,15 @@
                     let customSelect = document.getElementById(event.target.htmlFor)
                     if (!customSelect) return
 
-                    let selectedDiv = customSelect.querySelector(".select-selected")
-                    let optionsDiv = customSelect.querySelector(".select-items")
+                    let selectedDiv = customSelect.querySelector(".selectSelected")
+                    let optionsDiv = customSelect.querySelector(".selectItems")
 
                     if (selectedDiv && optionsDiv) {
                         event.stopPropagation()
                         closeAllSelect(selectedDiv)
 
-                        optionsDiv.classList.toggle("select-hide")
-                        selectedDiv.classList.toggle("select-arrow-active")
+                        optionsDiv.classList.toggle("selectHide")
+                        selectedDiv.classList.toggle("selectArrowActive")
                     }
                 });
             }
@@ -90,6 +90,8 @@
 
                 let selectOptionDiv = document.createElement("div");
                 selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
+
+                if (selectOptionIndex == 0) selectOptionDiv.classList.add("customSelected");
 
                 selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
 
@@ -104,15 +106,15 @@
                 event.stopPropagation();
                 closeAllSelect(targetNode);
 
-                targetNode.nextSibling.classList.toggle("select-hide");
-                targetNode.classList.toggle("select-arrow-active");
+                targetNode.nextSibling.classList.toggle("selectHide");
+                targetNode.classList.toggle("selectArrowActive");
             });
         }
 
         function closeAllSelect(element) {
 
-            let selectItems = document.getElementsByClassName("select-items");
-            let selectedItems = document.getElementsByClassName("select-selected");
+            let selectItems = document.getElementsByClassName("selectItems");
+            let selectedItems = document.getElementsByClassName("selectSelected");
             let elementIndexArray = [];
 
 
@@ -123,7 +125,7 @@
                 if (targetElement == element) {
                     elementIndexArray.push(targetElementIndex);
                 }else{
-                    targetElement.classList.remove("select-arrow-active");
+                    targetElement.classList.remove("selectArrowActive");
                 }
             }
 
@@ -132,7 +134,7 @@
                 let targetElement = selectItems[targetElementIndex];
 
                 if (elementIndexArray.indexOf(targetElementIndex)) {
-                    targetElement.classList.add("select-hide");
+                    targetElement.classList.add("selectHide");
                 }
             }
         }
@@ -152,13 +154,13 @@
                     parentSelect.selectedIndex = selectOptionIndex;
                     currentlySelectedDiv.innerText = targetNode.innerText;
 
-                    let selectedOptions = targetNode.parentNode.getElementsByClassName("same-as-selected");
+                    let selectedOptions = targetNode.parentNode.getElementsByClassName("customSelected");
 
                     for (let selectOption of selectedOptions) {
                         selectOption.className = "";
                     }
 
-                    targetNode.classList.add("same-as-selected");
+                    targetNode.classList.add("customSelected");
                     break;
 
                 }
