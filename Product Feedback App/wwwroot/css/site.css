@@ -321,6 +321,7 @@ textarea {
     margin-right: 40px;
     cursor: pointer;
     transition: 0.15s ease background-color;
+    height: min-content;
 }
 
 .feedbackUpvotes:hover {
@@ -364,6 +365,15 @@ textarea {
 
 .invisible {
     all: unset;
+}
+
+.upvoted {
+    background-color: var(--blue) !important;
+    color: white !important;
+}
+
+.upvoted::before {
+    background-image: url(/images/icons/downArrow.svg) !important;
 }
 
 /* Home Page Responsive Styles */

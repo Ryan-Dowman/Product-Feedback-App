@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Product_Feedback_App.Models.Domain
 @using Product_Feedback_App.Models.Identity
-@model IEnumerable<Product_Feedback_App.Models.Domain.Feedback>
+@using Product_Feedback_App.Models.View
+
+@model HomeIndexViewModel
 @inject UserManager<AppUser> userManager
 @{
     ViewData["Title"] = "Home Page";
@@ -70,13 +72,22 @@
             <a class="invisible" style="margin-left: auto;" asp-controller="Feedback" asp-action="Create"><button class="button purple">+ Add Feedback</button></a>
         </div>
         <div id="feedbackContainer">
-            @if (Model != null || Model.Any())
+            @if (Model != null && Model.FeedbackViewModels.Any())
             {
-                foreach (Feedback feedback in Model)
+                foreach (FeedbackViewModel feedbackViewModel in Model.FeedbackViewModels)
                 {
+                    Feedback feedback = feedbackViewModel.Feedback;
+                
                     <div class="feedback">
                         <div class="feedbackLHS">
-                            <div class="feedbackUpvotes" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            @if (feedbackViewModel.UserHasUpvoted)
+                            {
+                                <div class="feedbackUpvotes upvoted" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
+                            else
+                            {
+                                <div class="feedbackUpvotes" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
                             <div class="feedbackTextContainer">
                                 <p class="feedbackTitle">@feedback.Title</p>
                                 <p class="feedbackDetails">@feedback.Details</p>
@@ -131,6 +142,7 @@
                 }
             }).then(reponse => reponse.json()).then(result => {
                 document.getElementById(element.id).innerText = result;
+                document.getElementById(element.id).classList.toggle("upvoted");
             })
         }
     </script>
