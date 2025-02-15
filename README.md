@@ -1,1 +1,3 @@
 # Product Feedback App
+
+## Limitations
