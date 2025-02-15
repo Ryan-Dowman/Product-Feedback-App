@@ -97,3 +97,41 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        ApplyEventListenersToUpvoteButtons();
+
+        function ApplyEventListenersToUpvoteButtons() {
+            let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
+
+            for (upvoteButton of upvoteButtons) {
+                upvoteButton.addEventListener("click", (event) => {
+                    console.log("click");
+                    fetch("/api/upvotes/add", {
+                        method: "Post",
+                        headers: {
+                            "Accept": "*/*",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
+                    }).then(result => {
+                        GenerateNewUpvoteTotal(event.target);
+                    });
+                });
+            }
+        }
+
+        function GenerateNewUpvoteTotal(element) {
+            fetch(`/api/upvotes/${element.id}/Upvotes`, {
+                method: "Get",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                }
+            }).then(reponse => reponse.json()).then(result => {
+                document.getElementById(element.id).innerText = result;
+            })
+        }
+    </script>
+}
