@@ -30,8 +30,9 @@
                 <label for="profilePicture" class="labelPrimary">Upload Profile Picture</label>
                 <div style="display: flex; align-items: center; width: 100%; gap: 10px; margin-top: 10px;">
                     <input type="file" id="profilePicture" style="margin-top: 0px;"/>
-                    <input type="hidden" id="fileUploadUrl" />
+                    <input type="hidden" id="fileUploadUrl" asp-for="ProfilePictureUrl" />
                     <img src="" id="previewProfilePicture" style="display: none; height: 50px; width: 50px; border-radius: 50%;" />
+                    <span asp-validation-for="ProfilePictureUrl"></span>
                 </div>
                 <span asp-validation-for="Password"></span>
             </div>
@@ -65,7 +66,7 @@
                 },
                 body: data
             }).then(response => response.json()).then(result => {
-                fileUploadUrlElement.ariaValueMax = result.imageUrl
+                fileUploadUrlElement.value = result.imageUrl
                 previewProfilePictureElement.src = result.imageUrl;
                 previewProfilePictureElement.style.display = "block";
             });

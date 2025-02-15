@@ -1,7 +1,11 @@
-﻿@using Product_Feedback_App.Models.Domain
+﻿@using Microsoft.AspNetCore.Identity
+@using Product_Feedback_App.Models.Domain
+@using Product_Feedback_App.Models.Identity
 @model IEnumerable<Product_Feedback_App.Models.Domain.Feedback>
+@inject UserManager<AppUser> userManager
 @{
     ViewData["Title"] = "Home Page";
+    AppUser? user = await userManager.GetUserAsync(User);
 }
 
 <div id="homeContainer">
@@ -45,8 +49,8 @@
                 <p class="widgetHeaderText">Logged In As</p>
             </div>
             <div id="userLoggedInContainer">
-                <img src="/images/profiles/7a95e6c4-31da-4c14-8760-f5de479f1698.png" class="pfp" alt="Profile Picture" />
-                <p>John Smith</p>
+                <img src="@user?.ProfilePictureUrl" class="pfp" alt="Profile Picture" />
+                <p>@user?.UserName</p>
                 <a class="invisible" style="margin-left: auto;" asp-controller="Account" asp-action="Logout"><button>Logout</button></a>
             </div>
         </div>

@@ -14,5 +14,8 @@ namespace Product_Feedback_App.Models.View
         [Required]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
         public string Password { get; set; }
+
+        [Required]
+        public string ProfilePictureUrl { get; set; }
     }
 }

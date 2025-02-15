@@ -68,12 +68,17 @@ namespace Product_Feedback_App.Controllers
                 UserName = accountRegisterViewModel.Username,
                 NormalizedUserName = accountRegisterViewModel.Username.ToUpper(),
                 Email = accountRegisterViewModel.Email,
-                NormalizedEmail = accountRegisterViewModel.Email.ToUpper()
+                NormalizedEmail = accountRegisterViewModel.Email.ToUpper(),
+                ProfilePictureUrl = accountRegisterViewModel.ProfilePictureUrl
             };
 
             user.PasswordHash = userManager.PasswordHasher.HashPassword(user, accountRegisterViewModel.Password);
 
             await userManager.CreateAsync(user);
+
+            await userManager.AddToRoleAsync(user, "User");
+
+            await signInManager.SignInAsync(user, false);
 
             return RedirectToAction("Index", "Home");
         }
