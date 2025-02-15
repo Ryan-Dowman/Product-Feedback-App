@@ -78,7 +78,6 @@ textarea {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 24px;
-    overflow-x: scroll;
 }
 
 .widget {
@@ -126,6 +125,7 @@ textarea {
     width: min-content;
     height: auto;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .categoryOn {
@@ -273,13 +273,96 @@ textarea {
     background-color: #656EA3
 }
 
-#feedbackContainer{
+#feedbackContainer {
     height: 100%;
     width: 100%;
-    background-color: white;
 }
 
-.invisible{
+.feedback {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 35px;
+}
+
+.feedback .category {
+    cursor: default !important;
+}
+
+.feedbackLHS {
+    display: grid;
+    grid-template-areas: "a b" "c d"
+}
+
+.feedbackRHS {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 18px;
+    color: var(--light-steel-blue);
+    font-weight: bold;
+}
+
+.feedbackUpvotes {
+    background-color: var(--lightgrey);
+    padding: 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: bold;
+    color: var(--light-steel-blue);
+    margin-right: 40px;
+    cursor: pointer;
+    transition: 0.15s ease background-color;
+}
+
+.feedbackUpvotes:hover {
+    background-color: #CFD7FF;
+}
+
+.feedbackUpvotes::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 5px;
+    background-image: url(/images/icons/downArrowBlue.svg);
+    transform: rotate(180deg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.feedbackTitle {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: var(--light-steel-blue);
+    transition: 0.15s ease color;
+    cursor: pointer;
+}
+
+.feedbackTitle:hover {
+    color: var(--blue);
+}
+
+.feedbackDetails {
+    color: var(--blue-grey);
+    font-size: 16px;
+}
+
+.feedback .category {
+    grid-area: d;
+    margin-top: 10px;
+}
+
+.invisible {
     all: unset;
 }
 

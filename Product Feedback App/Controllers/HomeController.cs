@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Product_Feedback_App.Models;
 using Product_Feedback_App.Models.Domain;
 using Product_Feedback_App.Models.View;
+using Product_Feedback_App.Respositories;
 using System.Diagnostics;
 
 namespace Product_Feedback_App.Controllers
@@ -11,16 +12,19 @@ namespace Product_Feedback_App.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IFeedbackRepository feedbackRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IFeedbackRepository feedbackRepository)
         {
             _logger = logger;
+            this.feedbackRepository = feedbackRepository;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(new List<Feedback>());
+            List<Feedback> feedback = await feedbackRepository.GetAllFeedbackAsync();
+            return View(feedback);
         }
 
         [HttpGet]

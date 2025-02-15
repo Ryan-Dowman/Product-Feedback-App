@@ -38,7 +38,7 @@ namespace Product_Feedback_App.Respositories
 
         public async Task<List<Feedback>> GetAllFeedbackAsync()
         {
-            return await appDbContext.Feedback.ToListAsync();
+            return await appDbContext.Feedback.Include(feedback => feedback.Upvotes).Include(feedback => feedback.Comments).ToListAsync();
         }
 
         public async Task<Feedback?> GetFeedbackByIdAsync(Guid id)
