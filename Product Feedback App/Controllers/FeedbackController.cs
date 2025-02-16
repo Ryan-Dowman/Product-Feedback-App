@@ -57,9 +57,23 @@ namespace Product_Feedback_App.Controllers
         }
 
         [HttpGet]
-        public IActionResult View(Guid id)
+        public async Task<IActionResult> View(Guid id)
         {
-            return View();
+            Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
+            
+            if (feedback == null) return View(null);
+            
+            bool userHasUpvoted = feedback.Upvotes.FirstOrDefault(upvote => upvote.UserId == Guid.Parse(userManager.GetUserId(User))) != null;
+
+            FeedbackViewViewModel feedbackViewViewModel = new FeedbackViewViewModel
+            {
+                Feedback = feedback,
+                UserHasUpvoted = userHasUpvoted
+            };
+
+            Console.WriteLine($"Returning model with feedback title: {feedbackViewViewModel.Feedback.Title}");
+
+            return View("View", feedbackViewViewModel);
         }
 
         [HttpPost]

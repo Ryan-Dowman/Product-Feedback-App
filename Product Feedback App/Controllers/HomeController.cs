@@ -38,7 +38,7 @@ namespace Product_Feedback_App.Controllers
                    new FeedbackViewModel()
                    {
                        Feedback = feedback,
-                       UserHasUpvoted = feedback.Upvotes.FirstOrDefault(upvote => upvote.UserId == Guid.Parse(userManager.GetUserId(User))) == null ? false : true
+                       UserHasUpvoted = feedback.Upvotes.FirstOrDefault(upvote => upvote.UserId == Guid.Parse(userManager.GetUserId(User))) != null
                    }     
                 );
             }

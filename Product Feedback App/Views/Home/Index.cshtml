@@ -89,7 +89,7 @@
                                 <div class="feedbackUpvotes" id="@feedback.Id">@feedback.Upvotes.Count</div>
                             }
                             <div class="feedbackTextContainer">
-                                <p class="feedbackTitle">@feedback.Title</p>
+                                <a class="invisible" asp-area="" asp-controller="Feedback" asp-action="View" asp-route-id="@feedback.Id"><p class="feedbackTitle">@feedback.Title</p></a>
                                 <p class="feedbackDetails">@feedback.Details</p>
                             </div>
                             <div class="category">@feedback.Category.ToString()</div>
