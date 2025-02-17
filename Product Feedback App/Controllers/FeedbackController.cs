@@ -60,7 +60,12 @@ namespace Product_Feedback_App.Controllers
         public async Task<IActionResult> View(Guid id)
         {
             Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
-            
+
+            foreach (var comment in feedback.Comments)
+            {
+                Console.WriteLine(comment.User?.UserName);  // This should print the User's name or data
+            }
+
             if (feedback == null) return View(null);
             
             bool userHasUpvoted = feedback.Upvotes.FirstOrDefault(upvote => upvote.UserId == Guid.Parse(userManager.GetUserId(User))) != null;

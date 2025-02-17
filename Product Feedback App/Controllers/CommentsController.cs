@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Product_Feedback_App.Data;
 using Product_Feedback_App.Models.Domain;
 using Product_Feedback_App.Models.Identity;
 using Product_Feedback_App.Models.View;
@@ -23,7 +24,10 @@ namespace Product_Feedback_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(FeedbackViewViewModel feedbackViewViewModel, Guid feedbackId)
         {
-            if (String.IsNullOrEmpty(feedbackViewViewModel.CommentContent))
+            List<Feedback> feedbacks = await feedbackRepository.GetAllFeedbackAsync();
+            AppUser? user = await userManager.GetUserAsync(User);
+
+            if (user == null || feedbackViewViewModel == null || String.IsNullOrEmpty(feedbackViewViewModel.CommentContent))
             {
                 TempData["ErrorMessage"] = "Comment cannot be empty";
                 return RedirectToAction("View", "Feedback", new { id = feedbackId });
@@ -32,8 +36,6 @@ namespace Product_Feedback_App.Controllers
             Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(feedbackId);
 
             if(feedback == null) return RedirectToAction("Index", "Home");
-
-            AppUser user = await userManager.GetUserAsync(User);
 
             Comment comment = new Comment
             {

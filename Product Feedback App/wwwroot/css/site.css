@@ -649,6 +649,7 @@ textarea {
     padding: 28px 35px;
     margin-top: 30px;
     height: max-content;
+    border-radius: 10px;
 }
 
 .addCommentSection form {
@@ -662,4 +663,9 @@ textarea {
     color: var(--light-steel-blue);
     transition: 0.15s ease color;
     cursor: pointer;
+}
+
+.comment {
+    display: grid;
+    grid-template-areas: "a b" "a c"
 }
