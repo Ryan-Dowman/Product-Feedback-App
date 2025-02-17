@@ -39,5 +39,30 @@ namespace Product_Feedback_App.Respositories
 
             return comment;
         }
+
+        public async Task<Comment?> GetCommentByIdAsync(Guid id)
+        {
+            return await appDbContext.Comments.Include(comment => comment.User).Include(comment => comment.Replies).ThenInclude(comment => comment.User).FirstOrDefaultAsync(currentComment => currentComment.Id == id);
+        }
+
+        public async Task<Comment?> UpdateCommentAsync(Comment comment)
+        {
+            Comment? targetComment = await appDbContext.Comments.FirstOrDefaultAsync(currentComment => currentComment.Id == comment.Id);
+
+            if (targetComment == null) return null;
+
+            targetComment.Id = comment.Id;
+            targetComment.FeedbackId = comment.FeedbackId;
+            targetComment.User = comment.User;
+            targetComment.Content = comment.Content;
+            targetComment.TargetUsername = comment.TargetUsername;
+            targetComment.ParentComment = comment.ParentComment;
+            targetComment.ParentCommentId = comment.ParentCommentId;
+            targetComment.Replies = comment.Replies;
+
+            await appDbContext.SaveChangesAsync();
+
+            return comment;
+        }
     }
 }

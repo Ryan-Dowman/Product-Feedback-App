@@ -50,6 +50,7 @@
             <p>@Model.Feedback.Comments.Count Comments</p>
             @foreach (Comment comment in @Model.Feedback.Comments)
             {
+                if (comment.ParentComment != null) continue;
                 AppUser user = comment.User;
 
                 <div class="feedbackComment">
@@ -65,11 +66,35 @@
                         </div>
                     </div>
                     <p class="commentContent">@comment.Content</p>
-                    <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-id="@comment.Id">
-                        <textarea></textarea>
+                    <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@user.UserName">
+                        <textarea asp-for="CommentContent"></textarea>
                         <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
                     </form>
                 </div>
+                
+                @foreach (Comment reply in comment.Replies)
+                {
+                    AppUser replyUser = reply.User;
+
+                    <div class="feedbackComment" style="margin-left: 60px">
+                        <img alt="Profile Picture" class="pfp" src="@replyUser.ProfilePictureUrl" />
+                        <div class="commentTop">
+                            <div class="commentUserContainer">
+                                <p class="username">@replyUser.UserName <span>Admin</span></p>
+                                <p class="email">@replyUser.Email</p>
+                            </div>
+                            <div class="commentRHSControls">
+                                <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@reply.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                <p class="reply">Reply</p>
+                            </div>
+                        </div>
+                        <p class="commentContent"><span style="color: var(--purple)">@@@reply.TargetUsername</span> @reply.Content</p>
+                        <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@replyUser.UserName">
+                            <textarea asp-for="CommentContent"></textarea>
+                            <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
+                        </form>
+                    </div>
+                }
             }
         </div>
         <div class="addCommentSection">

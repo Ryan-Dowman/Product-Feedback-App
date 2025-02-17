@@ -52,5 +52,35 @@ namespace Product_Feedback_App.Controllers
 
             return Redirect($"/Feedback/View/{feedbackId}");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Reply(FeedbackViewViewModel feedbackViewViewModel, Guid commentId, Guid feedbackId, string targetUsername)
+        {
+            Comment? comment = await commentRepository.GetCommentByIdAsync(commentId);
+
+            if (comment == null) return Redirect($"/Feedback/View/{feedbackId}");
+
+            ICollection<Comment> replies = comment.Replies;
+
+            Comment reply = new Comment
+            {
+                FeedbackId = comment.FeedbackId,
+                User = comment.User,
+                Content = feedbackViewViewModel.CommentContent,
+                TargetUsername = targetUsername,
+                ParentComment = comment,
+                ParentCommentId = comment.Id,
+                Replies = new List<Comment>()
+            };
+
+            await commentRepository.CreateCommentAsync(reply);
+
+            replies.Add(reply);
+            comment.Replies = replies;
+
+            await commentRepository.UpdateCommentAsync(comment);
+
+            return Redirect($"/Feedback/View/{feedbackId}");
+        }
     }
 }
