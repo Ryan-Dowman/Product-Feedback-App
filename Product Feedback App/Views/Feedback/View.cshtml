@@ -1,10 +1,27 @@
-﻿@model Product_Feedback_App.Models.View.FeedbackViewViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Product_Feedback_App.Models.Identity
+@model Product_Feedback_App.Models.View.FeedbackViewViewModel
+@inject UserManager<AppUser> userManager
 @{
 
 }
 
 <div class="feeedbackViewContainer">
-
+    <div class="feedbackViewContainerHeader">
+        <a asp-controller="Home" asp-action="Index" class="back">Go Back</a>
+        <div class="feedbackViewContainerHeaderRHS">
+            <div class="customSelect" id="categorySelect">
+                <select>
+                    <option value="Suggestion">Suggestion</option>
+                    <option value="Planned">Planned</option>
+                    <option value="InProgress">In-Progress</option>
+                    <option value="Live">Live</option>
+                </select>
+            </div>
+            <div class="button blue">Edit Feedback</div>
+        </div>
+        
+    </div>
     @if (Model != null)
     {
         <div class="feedback">
@@ -36,3 +53,182 @@
 
     
 </div>
+
+@section Scripts {
+    <script>
+        let customSelects = document.getElementsByClassName("customSelect");
+
+        for (let customSelect of customSelects) {
+
+            let selectElement = customSelect.getElementsByTagName("select")[0];
+
+            let selectedDiv = document.createElement("div");
+            selectedDiv.classList.add("selectSelected");
+            selectedDiv.innerText = selectElement.options[selectElement.selectedIndex].innerText;
+
+            customSelect.appendChild(selectedDiv);
+
+            let selectOptionsDiv = document.createElement("div");
+            selectOptionsDiv.classList.add("selectItems", "selectHide");
+
+            let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
+
+            for (let label of targetLabels) {
+                label.addEventListener("click", (event) => {
+                    event.preventDefault()
+
+                    let customSelect = document.getElementById(event.target.htmlFor)
+                    if (!customSelect) return
+
+                    let selectedDiv = customSelect.querySelector(".selectSelected")
+                    let optionsDiv = customSelect.querySelector(".selectItems")
+
+                    if (selectedDiv && optionsDiv) {
+                        event.stopPropagation()
+                        closeAllSelect(selectedDiv)
+
+                        optionsDiv.classList.toggle("selectHide")
+                        selectedDiv.classList.toggle("selectArrowActive")
+                    }
+                });
+            }
+
+            for (let selectOptionIndex in Array.from(selectElement.children)) {
+                let selectOption = selectElement[selectOptionIndex];
+
+                let selectOptionDiv = document.createElement("div");
+                selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
+
+                if (selectOptionIndex == 0) selectOptionDiv.classList.add("customSelected");
+
+                selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
+
+                selectOptionsDiv.appendChild(selectOptionDiv);
+            }
+
+            customSelect.appendChild(selectOptionsDiv);
+
+            selectedDiv.addEventListener("click", (event) => {
+                let targetNode = event.target;
+
+                event.stopPropagation();
+                closeAllSelect(targetNode);
+
+                targetNode.nextSibling.classList.toggle("selectHide");
+                targetNode.classList.toggle("selectArrowActive");
+            });
+        }
+
+        function closeAllSelect(element) {
+
+            let selectItems = document.getElementsByClassName("selectItems");
+            let selectedItems = document.getElementsByClassName("selectSelected");
+            let elementIndexArray = [];
+
+
+            for (let targetElementIndex in Array.from(selectedItems)) {
+
+                let targetElement = selectedItems[targetElementIndex];
+
+                if (targetElement == element) {
+                    elementIndexArray.push(targetElementIndex);
+                } else {
+                    targetElement.classList.remove("selectArrowActive");
+                }
+            }
+
+            for (let targetElementIndex in Array.from(selectItems)) {
+
+                let targetElement = selectItems[targetElementIndex];
+
+                if (elementIndexArray.indexOf(targetElementIndex)) {
+                    targetElement.classList.add("selectHide");
+                }
+            }
+        }
+
+        function customOptionSelect(event, overrideElement) {
+            let targetNode = overrideElement == null ? event.target : overrideElement;
+
+            let parentSelect = targetNode.parentNode.parentNode.getElementsByTagName("select")[0];
+            let currentlySelectedDiv = targetNode.parentNode.previousSibling;
+
+            for (let selectOptionIndex in Array.from(parentSelect)) {
+
+                let selectOption = parentSelect[selectOptionIndex];
+
+                if (selectOption.innerText == targetNode.innerText) {
+
+                    parentSelect.selectedIndex = selectOptionIndex;
+                    currentlySelectedDiv.innerText = targetNode.innerText;
+
+                    let selectedOptions = targetNode.parentNode.getElementsByClassName("customSelected");
+
+                    for (let selectOption of selectedOptions) {
+                        selectOption.className = "";
+                    }
+
+                    targetNode.classList.add("customSelected");
+                    console.log(targetNode.innerText);
+                    UpdateStatus(targetNode.innerText);
+
+                    break;
+
+                }
+            }
+
+        }
+
+        function UpdateStatus(statusText) {
+            console.log(statusText);
+            fetch("/api/feedback/edit/status/@Model.Feedback.Id", {
+                method: "Post",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(statusText)
+            }).then(response => response.json()).then(result => {
+                console.log(result);
+            });
+        }
+
+        document.addEventListener("click", closeAllSelect);
+
+        ApplyEventListenersToUpvoteButtons();
+
+        function ApplyEventListenersToUpvoteButtons() {
+            let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
+
+            for (upvoteButton of upvoteButtons) {
+                upvoteButton.addEventListener("click", (event) => {
+                    console.log("click");
+                    fetch("/api/upvotes/add", {
+                        method: "Post",
+                        headers: {
+                            "Accept": "*/*",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
+                    }).then(result => {
+                        GenerateNewUpvoteTotal(event.target);
+                    });
+                });
+            }
+        }
+
+        function GenerateNewUpvoteTotal(element) {
+            fetch(`/api/upvotes/${element.id}/Upvotes`, {
+                method: "Get",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                }
+            }).then(reponse => reponse.json()).then(result => {
+                document.getElementById(element.id).innerText = result;
+                document.getElementById(element.id).classList.toggle("upvoted");
+            })
+        }
+    </script>
+}
+

@@ -273,6 +273,15 @@ textarea {
     background-color: #656EA3
 }
 
+.button.blue {
+    background-color: var(--blue);
+    color: white;
+}
+
+.button.blue:hover {
+    background-color: #7C91F9
+}
+
 #feedbackContainer {
     height: 100%;
     width: 100%;
@@ -384,7 +393,7 @@ textarea {
     }
 }
 
-/* Create Feedback Page */
+/* Create Feedback Page Styles */
 .formPageContainer {
     width: 100%;
     max-width: 620px;
@@ -601,3 +610,36 @@ textarea {
 .selectItems div:hover, .customSelected {
     color: var(--purple);
 }
+
+/* View Feedback Page Styles */
+.feeedbackViewContainer {
+    max-width: 830px;
+    width: 100%;
+    padding: 90px 20px 20px 20px;
+}
+
+.feedbackViewContainerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.feedbackViewContainerHeader .selectSelected {
+    margin-top: 0px !important;
+}
+
+.feedbackViewContainerHeader .customSelect {
+    max-width: 150px !important;
+}
+
+.feedbackViewContainerHeaderRHS {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 30px;
+}
+

@@ -71,8 +71,6 @@ namespace Product_Feedback_App.Controllers
                 UserHasUpvoted = userHasUpvoted
             };
 
-            Console.WriteLine($"Returning model with feedback title: {feedbackViewViewModel.Feedback.Title}");
-
             return View("View", feedbackViewViewModel);
         }
 
@@ -92,6 +90,33 @@ namespace Product_Feedback_App.Controllers
         public IActionResult Edit(FeedbackEditViewModel feedbackEditViewModel)
         {
             return View();
+        }
+
+        [HttpPost("api/feedback/edit/status/{feedbackId:Guid}")]
+        public async Task<IActionResult> Edit([FromRoute] Guid feedbackId, [FromBody]string statusName)
+        {
+            Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(feedbackId);
+
+            if (feedback == null) return BadRequest("Feedback could not be found");
+
+            if (!Enum.TryParse(statusName, true, out Status newStatus)) return BadRequest("Feedback could not be found");
+
+            Feedback newFeedback = new Feedback
+            {
+                Id = feedback.Id,
+                UserId = feedback.UserId,
+                Title = feedback.Title,
+                Category = feedback.Category,
+                Status = newStatus,
+                Details = feedback.Details,
+                Upvotes = feedback.Upvotes,
+                Comments = feedback.Comments,
+            };
+
+            await feedbackRepository.UpdateFeedbackAsync(newFeedback);
+
+
+            return Ok("Status Update has been registered");
         }
 
         [HttpPost]
