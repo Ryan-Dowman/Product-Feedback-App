@@ -6,5 +6,8 @@ namespace Product_Feedback_App.Models.View
     {
         public Feedback Feedback { get; set; }
         public bool UserHasUpvoted { get; set; }
+
+        // For feedback comment
+        public string CommentContent { get; set; }
     }
 }

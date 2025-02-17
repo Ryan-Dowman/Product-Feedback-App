@@ -45,6 +45,27 @@
                 <p>@Model.Feedback.Comments.Count</p>
             </div>
         </div>
+        <div class="addCommentSection">
+            <p>Add Comment</p>
+            <form method="post" asp-controller="Comments" asp-action="Create" asp-route-feedbackId="@Model.Feedback.Id">
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <textarea asp-for="CommentContent" class="input-validation-error"></textarea>
+                }
+                else
+                {
+                    <textarea asp-for="CommentContent"></textarea>
+                }
+                
+                
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <span style="display: block">@ViewBag.ErrorMessage</span>
+                }
+                <button class="button purple" style="margin-top: 15px; margin-left: auto" type="submit">Post Comment</button>
+            </form>
+        </div>
     }
     else
     {

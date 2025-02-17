@@ -71,6 +71,11 @@ namespace Product_Feedback_App.Controllers
                 UserHasUpvoted = userHasUpvoted
             };
 
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            }
+
             return View("View", feedbackViewViewModel);
         }
 
