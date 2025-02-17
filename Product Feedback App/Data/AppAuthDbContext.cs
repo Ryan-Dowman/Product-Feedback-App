@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Product_Feedback_App.Models.Identity;
+using static System.Net.WebRequestMethods;
 
 namespace Product_Feedback_App.Data
 {
@@ -60,7 +61,7 @@ namespace Product_Feedback_App.Data
                 Email = Environment.GetEnvironmentVariable("ADMINEMAIL"),
                 NormalizedEmail = Environment.GetEnvironmentVariable("ADMINEMAIL").ToUpper(),
                 Id = adminUserId,
-                ProfilePictureUrl = "7a95e6c4-31da-4c14-8760-f5de479f1698.png"
+                ProfilePictureUrl = "https://localhost:7185/images/profiles/7a95e6c4-31da-4c14-8760-f5de479f1698.png"
             };
 
             adminUser.PasswordHash = new PasswordHasher<AppUser>().HashPassword(adminUser, Environment.GetEnvironmentVariable("ADMINPASSWORD"));

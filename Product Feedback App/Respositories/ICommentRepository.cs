@@ -8,5 +8,6 @@ namespace Product_Feedback_App.Respositories
         Task<Comment?> DeleteCommentAsync(Comment comment);
         Task<Comment?> GetCommentByIdAsync(Guid id);
         Task<Comment?> UpdateCommentAsync(Comment comment);
+        Task<List<Comment>> GetAllCommentsAsync();
     }
 }

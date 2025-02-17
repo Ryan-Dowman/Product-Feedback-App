@@ -46,57 +46,60 @@
                 <p>@Model.Feedback.Comments.Count</p>
             </div>
         </div>
-        <div class="addCommentSection">
-            <p>@Model.Feedback.Comments.Count Comments</p>
-            @foreach (Comment comment in @Model.Feedback.Comments)
-            {
-                if (comment.ParentComment != null) continue;
-                AppUser user = comment.User;
-
-                <div class="feedbackComment">
-                    <img alt="Profile Picture" class="pfp" src="@user.ProfilePictureUrl" />
-                    <div class="commentTop">
-                        <div class="commentUserContainer">
-                            <p class="username">@user.UserName <span>Admin</span></p>
-                            <p class="email">@user.Email</p>
-                        </div>
-                        <div class="commentRHSControls">
-                            <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
-                            <p class="reply">Reply</p>
-                        </div>
-                    </div>
-                    <p class="commentContent">@comment.Content</p>
-                    <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@user.UserName">
-                        <textarea asp-for="CommentContent"></textarea>
-                        <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
-                    </form>
-                </div>
-                
-                @foreach (Comment reply in comment.Replies)
+        @if (@Model.Feedback.Comments.Count > 0){
+            <div class="addCommentSection">
+                <p>@Model.Feedback.Comments.Count Comments</p>
+                @foreach (Comment comment in @Model.Feedback.Comments)
                 {
-                    AppUser replyUser = reply.User;
+                    if (comment.ParentComment != null) continue;
+                    AppUser user = await userManager.FindByIdAsync(comment.UserId.ToString());
 
-                    <div class="feedbackComment" style="margin-left: 60px">
-                        <img alt="Profile Picture" class="pfp" src="@replyUser.ProfilePictureUrl" />
+                    <div class="feedbackComment">
+                        <img alt="Profile Picture" class="pfp" src="@user.ProfilePictureUrl" />
                         <div class="commentTop">
                             <div class="commentUserContainer">
-                                <p class="username">@replyUser.UserName <span>Admin</span></p>
-                                <p class="email">@replyUser.Email</p>
+                                <p class="username">@user.UserName <span>Admin</span></p>
+                                <p class="email">@user.Email</p>
                             </div>
                             <div class="commentRHSControls">
-                                <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@reply.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
                                 <p class="reply">Reply</p>
                             </div>
                         </div>
-                        <p class="commentContent"><span style="color: var(--purple)">@@@reply.TargetUsername</span> @reply.Content</p>
-                        <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@replyUser.UserName">
+                        <p class="commentContent">@comment.Content</p>
+                        <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@user.UserName">
                             <textarea asp-for="CommentContent"></textarea>
                             <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
                         </form>
                     </div>
+
+                    @foreach (Comment reply in comment.Replies)
+                    {
+                        AppUser replyUser = await userManager.FindByIdAsync(reply.UserId.ToString());
+
+                        <div class="feedbackComment" style="margin-left: 60px">
+                            <img alt="Profile Picture" class="pfp" src="@replyUser.ProfilePictureUrl" />
+                            <div class="commentTop">
+                                <div class="commentUserContainer">
+                                    <p class="username">@replyUser.UserName <span>Admin</span></p>
+                                    <p class="email">@replyUser.Email</p>
+                                </div>
+                                <div class="commentRHSControls">
+                                    <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@reply.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                    <p class="reply">Reply</p>
+                                </div>
+                            </div>
+                            <p class="commentContent"><span style="color: var(--purple)">@@@reply.TargetUsername</span> @reply.Content</p>
+                            <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-commentId="@comment.Id" asp-route-feedbackId="@Model.Feedback.Id" asp-route-targetUsername="@replyUser.UserName">
+                                <textarea asp-for="CommentContent"></textarea>
+                                <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
+                            </form>
+                        </div>
+                    }
                 }
-            }
-        </div>
+            </div>
+        }
+        
         <div class="addCommentSection">
             <p>Add Comment</p>
             <form method="post" asp-controller="Comments" asp-action="Create" asp-route-feedbackId="@Model.Feedback.Id">
@@ -128,195 +131,199 @@
 </div>
 
 @section Scripts {
-    <script>
-        let customSelects = document.getElementsByClassName("customSelect");
+    @if (Model != null)
+    {
+        <script>
+            let customSelects = document.getElementsByClassName("customSelect");
 
-        for (let customSelect of customSelects) {
+            for (let customSelect of customSelects) {
 
-            let selectElement = customSelect.getElementsByTagName("select")[0];
+                let selectElement = customSelect.getElementsByTagName("select")[0];
 
-            let selectedDiv = document.createElement("div");
-            selectedDiv.classList.add("selectSelected");
-            selectedDiv.innerText = "@Model.Feedback.Status" == "InProgress" ? "In-Progress" : "@Model.Feedback.Status";
+                let selectedDiv = document.createElement("div");
+                selectedDiv.classList.add("selectSelected");
+                selectedDiv.innerText = "@Model.Feedback.Status" == "InProgress" ? "In-Progress" : "@Model.Feedback.Status";
 
-            customSelect.appendChild(selectedDiv);
+                customSelect.appendChild(selectedDiv);
 
-            let selectOptionsDiv = document.createElement("div");
-            selectOptionsDiv.classList.add("selectItems", "selectHide");
+                let selectOptionsDiv = document.createElement("div");
+                selectOptionsDiv.classList.add("selectItems", "selectHide");
 
-            let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
+                let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
 
-            for (let label of targetLabels) {
-                label.addEventListener("click", (event) => {
-                    event.preventDefault()
+                for (let label of targetLabels) {
+                    label.addEventListener("click", (event) => {
+                        event.preventDefault()
 
-                    let customSelect = document.getElementById(event.target.htmlFor)
-                    if (!customSelect) return
+                        let customSelect = document.getElementById(event.target.htmlFor)
+                        if (!customSelect) return
 
-                    let selectedDiv = customSelect.querySelector(".selectSelected")
-                    let optionsDiv = customSelect.querySelector(".selectItems")
+                        let selectedDiv = customSelect.querySelector(".selectSelected")
+                        let optionsDiv = customSelect.querySelector(".selectItems")
 
-                    if (selectedDiv && optionsDiv) {
-                        event.stopPropagation()
-                        closeAllSelect(selectedDiv)
+                        if (selectedDiv && optionsDiv) {
+                            event.stopPropagation()
+                            closeAllSelect(selectedDiv)
 
-                        optionsDiv.classList.toggle("selectHide")
-                        selectedDiv.classList.toggle("selectArrowActive")
-                    }
-                });
-            }
-
-            for (let selectOptionIndex in Array.from(selectElement.children)) {
-                let selectOption = selectElement[selectOptionIndex];
-
-                let selectOptionDiv = document.createElement("div");
-                selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
-
-                if (selectOptionDiv.innerText == selectedDiv.innerText) selectOptionDiv.classList.add("customSelected");
-
-                selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
-
-                selectOptionsDiv.appendChild(selectOptionDiv);
-            }
-
-            customSelect.appendChild(selectOptionsDiv);
-
-            selectedDiv.addEventListener("click", (event) => {
-                let targetNode = event.target;
-
-                event.stopPropagation();
-                closeAllSelect(targetNode);
-
-                targetNode.nextSibling.classList.toggle("selectHide");
-                targetNode.classList.toggle("selectArrowActive");
-            });
-        }
-
-        function closeAllSelect(element) {
-
-            let selectItems = document.getElementsByClassName("selectItems");
-            let selectedItems = document.getElementsByClassName("selectSelected");
-            let elementIndexArray = [];
-
-
-            for (let targetElementIndex in Array.from(selectedItems)) {
-
-                let targetElement = selectedItems[targetElementIndex];
-
-                if (targetElement == element) {
-                    elementIndexArray.push(targetElementIndex);
-                } else {
-                    targetElement.classList.remove("selectArrowActive");
-                }
-            }
-
-            for (let targetElementIndex in Array.from(selectItems)) {
-
-                let targetElement = selectItems[targetElementIndex];
-
-                if (elementIndexArray.indexOf(targetElementIndex)) {
-                    targetElement.classList.add("selectHide");
-                }
-            }
-        }
-
-        function customOptionSelect(event, overrideElement) {
-            let targetNode = overrideElement == null ? event.target : overrideElement;
-
-            let parentSelect = targetNode.parentNode.parentNode.getElementsByTagName("select")[0];
-            let currentlySelectedDiv = targetNode.parentNode.previousSibling;
-
-            for (let selectOptionIndex in Array.from(parentSelect)) {
-
-                let selectOption = parentSelect[selectOptionIndex];
-
-                if (selectOption.innerText == targetNode.innerText) {
-
-                    parentSelect.selectedIndex = selectOptionIndex;
-                    currentlySelectedDiv.innerText = targetNode.innerText;
-
-                    let selectedOptions = targetNode.parentNode.getElementsByClassName("customSelected");
-
-                    for (let selectOption of selectedOptions) {
-                        selectOption.className = "";
-                    }
-
-                    targetNode.classList.add("customSelected");
-                    console.log(targetNode.innerText);
-                    UpdateStatus(targetNode.innerText);
-
-                    break;
-
-                }
-            }
-
-        }
-
-        function UpdateStatus(statusText) {
-            console.log(statusText);
-            fetch("/api/feedback/edit/status/@Model.Feedback.Id", {
-                method: "Post",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(statusText.replace("-", ""))
-            }).then(response => response.json()).then(result => {
-                console.log(result);
-            });
-        }
-
-        document.addEventListener("click", closeAllSelect);
-
-        ApplyEventListenersToUpvoteButtons();
-
-        function ApplyEventListenersToUpvoteButtons() {
-            let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
-
-            for (upvoteButton of upvoteButtons) {
-                upvoteButton.addEventListener("click", (event) => {
-                    console.log("click");
-                    fetch("/api/upvotes/add", {
-                        method: "Post",
-                        headers: {
-                            "Accept": "*/*",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
-                    }).then(result => {
-                        GenerateNewUpvoteTotal(event.target);
+                            optionsDiv.classList.toggle("selectHide")
+                            selectedDiv.classList.toggle("selectArrowActive")
+                        }
                     });
-                });
-            }
-        }
-
-        function GenerateNewUpvoteTotal(element) {
-            fetch(`/api/upvotes/${element.id}/Upvotes`, {
-                method: "Get",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "application/json"
                 }
-            }).then(reponse => reponse.json()).then(result => {
-                document.getElementById(element.id).innerText = result;
-                document.getElementById(element.id).classList.toggle("upvoted");
-            })
-        }
 
-        function AddReplyFunctionality() {
-            let replyElements = Array.from(document.getElementsByClassName("reply"));
+                for (let selectOptionIndex in Array.from(selectElement.children)) {
+                    let selectOption = selectElement[selectOptionIndex];
 
-            for (replyElement of replyElements) {
-                console.log(replyElement);
-                replyElement.addEventListener("click", (event) => {
-                    let formElement = event.target.parentNode.parentNode.parentNode.getElementsByTagName("form")[0];
-                    console.log(formElement);
-                    formElement.classList.toggle("invisible");
+                    let selectOptionDiv = document.createElement("div");
+                    selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
+
+                    if (selectOptionDiv.innerText == selectedDiv.innerText) selectOptionDiv.classList.add("customSelected");
+
+                    selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
+
+                    selectOptionsDiv.appendChild(selectOptionDiv);
+                }
+
+                customSelect.appendChild(selectOptionsDiv);
+
+                selectedDiv.addEventListener("click", (event) => {
+                    let targetNode = event.target;
+
+                    event.stopPropagation();
+                    closeAllSelect(targetNode);
+
+                    targetNode.nextSibling.classList.toggle("selectHide");
+                    targetNode.classList.toggle("selectArrowActive");
                 });
             }
-        }
 
-        AddReplyFunctionality();
-    </script>
+            function closeAllSelect(element) {
+
+                let selectItems = document.getElementsByClassName("selectItems");
+                let selectedItems = document.getElementsByClassName("selectSelected");
+                let elementIndexArray = [];
+
+
+                for (let targetElementIndex in Array.from(selectedItems)) {
+
+                    let targetElement = selectedItems[targetElementIndex];
+
+                    if (targetElement == element) {
+                        elementIndexArray.push(targetElementIndex);
+                    } else {
+                        targetElement.classList.remove("selectArrowActive");
+                    }
+                }
+
+                for (let targetElementIndex in Array.from(selectItems)) {
+
+                    let targetElement = selectItems[targetElementIndex];
+
+                    if (elementIndexArray.indexOf(targetElementIndex)) {
+                        targetElement.classList.add("selectHide");
+                    }
+                }
+            }
+
+            function customOptionSelect(event, overrideElement) {
+                let targetNode = overrideElement == null ? event.target : overrideElement;
+
+                let parentSelect = targetNode.parentNode.parentNode.getElementsByTagName("select")[0];
+                let currentlySelectedDiv = targetNode.parentNode.previousSibling;
+
+                for (let selectOptionIndex in Array.from(parentSelect)) {
+
+                    let selectOption = parentSelect[selectOptionIndex];
+
+                    if (selectOption.innerText == targetNode.innerText) {
+
+                        parentSelect.selectedIndex = selectOptionIndex;
+                        currentlySelectedDiv.innerText = targetNode.innerText;
+
+                        let selectedOptions = targetNode.parentNode.getElementsByClassName("customSelected");
+
+                        for (let selectOption of selectedOptions) {
+                            selectOption.className = "";
+                        }
+
+                        targetNode.classList.add("customSelected");
+                        console.log(targetNode.innerText);
+                        UpdateStatus(targetNode.innerText);
+
+                        break;
+
+                    }
+                }
+
+            }
+
+            function UpdateStatus(statusText) {
+                console.log(statusText);
+                fetch("/api/feedback/edit/status/@Model.Feedback.Id", {
+                    method: "Post",
+                    headers: {
+                        "Accept": "*/*",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(statusText.replace("-", ""))
+                }).then(response => response.json()).then(result => {
+                    console.log(result);
+                });
+            }
+
+            document.addEventListener("click", closeAllSelect);
+
+            ApplyEventListenersToUpvoteButtons();
+
+            function ApplyEventListenersToUpvoteButtons() {
+                let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
+
+                for (upvoteButton of upvoteButtons) {
+                    upvoteButton.addEventListener("click", (event) => {
+                        console.log("click");
+                        fetch("/api/upvotes/add", {
+                            method: "Post",
+                            headers: {
+                                "Accept": "*/*",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
+                        }).then(result => {
+                            GenerateNewUpvoteTotal(event.target);
+                        });
+                    });
+                }
+            }
+
+            function GenerateNewUpvoteTotal(element) {
+                fetch(`/api/upvotes/${element.id}/Upvotes`, {
+                    method: "Get",
+                    headers: {
+                        "Accept": "*/*",
+                        "Content-Type": "application/json"
+                    }
+                }).then(reponse => reponse.json()).then(result => {
+                    document.getElementById(element.id).innerText = result;
+                    document.getElementById(element.id).classList.toggle("upvoted");
+                })
+            }
+
+            function AddReplyFunctionality() {
+                let replyElements = Array.from(document.getElementsByClassName("reply"));
+
+                for (replyElement of replyElements) {
+                    console.log(replyElement);
+                    replyElement.addEventListener("click", (event) => {
+                        let formElement = event.target.parentNode.parentNode.parentNode.getElementsByTagName("form")[0];
+                        console.log(formElement);
+                        formElement.classList.toggle("invisible");
+                    });
+                }
+            }
+
+            AddReplyFunctionality();
+        </script>
+    }
+
 }
 

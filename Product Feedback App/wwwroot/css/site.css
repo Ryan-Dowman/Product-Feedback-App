@@ -377,6 +377,10 @@ textarea {
     line-height: 0px
 }
 
+.invisible > * {
+    line-height: normal !important;
+}
+
 .upvoted {
     background-color: var(--blue) !important;
     color: white !important;

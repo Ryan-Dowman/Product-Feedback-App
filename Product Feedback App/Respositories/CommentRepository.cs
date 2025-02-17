@@ -17,15 +17,10 @@ namespace Product_Feedback_App.Respositories
 
         public async Task<Comment> CreateCommentAsync(Comment comment)
         {
-
-            // Need to carefully handle User when being placed into another entity instance
-            comment.User = await appDbContext.Users.FirstOrDefaultAsync(u => u.Id == comment.User.Id);
-
             await appDbContext.Comments.AddAsync(comment);
             await appDbContext.SaveChangesAsync();
 
             return comment;
-
         }
 
         public async Task<Comment?> DeleteCommentAsync(Comment comment)
@@ -40,9 +35,14 @@ namespace Product_Feedback_App.Respositories
             return comment;
         }
 
+        public async Task<List<Comment>> GetAllCommentsAsync()
+        {
+            return await appDbContext.Comments.ToListAsync();
+        }
+
         public async Task<Comment?> GetCommentByIdAsync(Guid id)
         {
-            return await appDbContext.Comments.Include(comment => comment.User).Include(comment => comment.Replies).ThenInclude(comment => comment.User).FirstOrDefaultAsync(currentComment => currentComment.Id == id);
+            return await appDbContext.Comments.Include(comment => comment.Replies).FirstOrDefaultAsync(currentComment => currentComment.Id == id);
         }
 
         public async Task<Comment?> UpdateCommentAsync(Comment comment)
@@ -53,7 +53,7 @@ namespace Product_Feedback_App.Respositories
 
             targetComment.Id = comment.Id;
             targetComment.FeedbackId = comment.FeedbackId;
-            targetComment.User = comment.User;
+            targetComment.UserId = comment.UserId;
             targetComment.Content = comment.Content;
             targetComment.TargetUsername = comment.TargetUsername;
             targetComment.ParentComment = comment.ParentComment;

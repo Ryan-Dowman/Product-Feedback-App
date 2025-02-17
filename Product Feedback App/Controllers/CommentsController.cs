@@ -23,6 +23,7 @@ namespace Product_Feedback_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(FeedbackViewViewModel feedbackViewViewModel, Guid feedbackId)
         {
+            // Remove later
             List<Feedback> feedbacks = await feedbackRepository.GetAllFeedbackAsync();
             AppUser? user = await userManager.GetUserAsync(User);
 
@@ -39,7 +40,7 @@ namespace Product_Feedback_App.Controllers
             Comment comment = new Comment
             {
                 FeedbackId = feedback.Id,
-                User = user,
+                UserId = Guid.Parse(user.Id),
                 Content = feedbackViewViewModel.CommentContent,
                 TargetUsername = null,
                 ParentCommentId = null,
@@ -57,15 +58,16 @@ namespace Product_Feedback_App.Controllers
         public async Task<IActionResult> Reply(FeedbackViewViewModel feedbackViewViewModel, Guid commentId, Guid feedbackId, string targetUsername)
         {
             Comment? comment = await commentRepository.GetCommentByIdAsync(commentId);
+            AppUser? user = await userManager.GetUserAsync(User);
 
-            if (comment == null) return Redirect($"/Feedback/View/{feedbackId}");
+            if (user ==null || comment == null) return Redirect($"/Feedback/View/{feedbackId}");
 
             ICollection<Comment> replies = comment.Replies;
 
             Comment reply = new Comment
             {
                 FeedbackId = comment.FeedbackId,
-                User = comment.User,
+                UserId = Guid.Parse(user.Id),
                 Content = feedbackViewViewModel.CommentContent,
                 TargetUsername = targetUsername,
                 ParentComment = comment,

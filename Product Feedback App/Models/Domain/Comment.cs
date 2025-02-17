@@ -8,7 +8,7 @@ namespace Product_Feedback_App.Models.Domain
 
         public Guid FeedbackId { get; set; }
 
-        public AppUser User { get; set; }
+        public Guid UserId { get; set; }
 
         public string Content { get; set; }
 

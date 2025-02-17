@@ -14,11 +14,13 @@ namespace Product_Feedback_App.Controllers
     {
         private readonly IFeedbackRepository feedbackRepository;
         private readonly UserManager<AppUser> userManager;
+        private readonly ICommentRepository commentRepository;
 
-        public FeedbackController(IFeedbackRepository feedbackRepository, UserManager<AppUser> userManager)
+        public FeedbackController(IFeedbackRepository feedbackRepository, UserManager<AppUser> userManager, ICommentRepository commentRepository)
         {
             this.feedbackRepository = feedbackRepository;
             this.userManager = userManager;
+            this.commentRepository = commentRepository;
         }
 
         [HttpGet]
@@ -59,6 +61,9 @@ namespace Product_Feedback_App.Controllers
         [HttpGet]
         public async Task<IActionResult> View(Guid id)
         {
+            
+            List<Comment> comments = await commentRepository.GetAllCommentsAsync();
+            
             Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
 
             if (feedback == null) return View(null);
