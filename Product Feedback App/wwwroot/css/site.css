@@ -374,6 +374,7 @@ textarea {
 
 .invisible {
     all: unset;
+    line-height: 0px
 }
 
 .upvoted {
@@ -502,7 +503,7 @@ textarea {
 
 textarea {
     max-width: 100%;
-    min-width: 100%;
+    resize: vertical;
 }
 
 .formInputLabelContainer input:focus, textarea:focus {
@@ -656,16 +657,88 @@ textarea {
     height: max-content;
 }
 
-.addCommentSection p {
+.addCommentSection {
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 5px;
     color: var(--light-steel-blue);
     transition: 0.15s ease color;
+}
+
+.feedbackComment {
+    display: grid;
+    grid-template-areas: "a b" "a c" "d e";
+    grid-template-rows: auto auto auto;
+    grid-template-columns: min-content 1fr;
+    margin-top: 35px;
+}
+
+.feedbackComment > img {
+    grid-area: a;
+    margin-right: 20px;
+}
+
+.commentTop {
+    grid-area: b;
+    display: flex;
+    justify-content: space-between;
+}
+
+.commentContent {
+    grid-area: c;
+    color: var(--blue-grey);
+    font-size: 15px;
+    font-weight: lighter;
+    margin-top: 10px;
+}
+
+.username {
+    font-size: 15px;
+    color: var(--light-steel-blue);
+    font-weight: bold;
+}
+
+.username span{
+    color: var(--purple);
+    margin-left: 5px
+}
+
+.email {
+    color: var(--blue-grey);
+    font-size: 13px;
+}
+
+.commentRHSControls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-end;
+
+}
+
+.reply {
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-.comment {
-    display: grid;
-    grid-template-areas: "a b" "a c"
+.replyForm {
+    grid-area: e;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 25px;
+
+}
+
+.replyForm textarea {
+    margin: 0px !important;
+    width: 100%;
+    max-width: 100%;
+}
+
+.replyForm.invisible {
+    display: none;
 }

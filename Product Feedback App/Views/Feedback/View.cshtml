@@ -51,14 +51,24 @@
             @foreach (Comment comment in @Model.Feedback.Comments)
             {
                 AppUser user = comment.User;
-                <div class="comment">
+
+                <div class="feedbackComment">
                     <img alt="Profile Picture" class="pfp" src="@user.ProfilePictureUrl" />
-                    <div class="commentUserContainer">
-                        <p class="username">@user.UserName</p>
-                        <p class="email">@user.Email</p>
+                    <div class="commentTop">
+                        <div class="commentUserContainer">
+                            <p class="username">@user.UserName <span>Admin</span></p>
+                            <p class="email">@user.Email</p>
+                        </div>
+                        <div class="commentRHSControls">
+                            <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                            <p class="reply">Reply</p>
+                        </div>
                     </div>
-                    <p class="reply">Reply</p>
                     <p class="commentContent">@comment.Content</p>
+                    <form class="replyForm invisible" asp-controller="Comments" asp-action="Reply" asp-route-id="@comment.Id">
+                        <textarea></textarea>
+                        <button class="button purple" style="min-width: max-content;" type="submit">Post Reply</button>
+                    </form>
                 </div>
             }
         </div>
@@ -80,7 +90,7 @@
                 {
                     <span style="display: block">@ViewBag.ErrorMessage</span>
                 }
-                <button class="button purple" style="margin-top: 15px; margin-left: auto" type="submit">Post Comment</button>
+                <button class="button purple" style="margin-top: 15px; position: relative; left: 100%; transform: translateX(-100%);" type="submit">Post Comment</button>
             </form>
         </div>
     }
@@ -267,6 +277,21 @@
                 document.getElementById(element.id).classList.toggle("upvoted");
             })
         }
+
+        function AddReplyFunctionality() {
+            let replyElements = Array.from(document.getElementsByClassName("reply"));
+
+            for (replyElement of replyElements) {
+                console.log(replyElement);
+                replyElement.addEventListener("click", (event) => {
+                    let formElement = event.target.parentNode.parentNode.parentNode.getElementsByTagName("form")[0];
+                    console.log(formElement);
+                    formElement.classList.toggle("invisible");
+                });
+            }
+        }
+
+        AddReplyFunctionality();
     </script>
 }
 
