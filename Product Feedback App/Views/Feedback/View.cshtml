@@ -14,7 +14,7 @@
                 <select>
                     <option value="Suggestion">Suggestion</option>
                     <option value="Planned">Planned</option>
-                    <option value="InProgress">In-Progress</option>
+                    <option value="In-Progress">In-Progress</option>
                     <option value="Live">Live</option>
                 </select>
             </div>
@@ -64,7 +64,7 @@
 
             let selectedDiv = document.createElement("div");
             selectedDiv.classList.add("selectSelected");
-            selectedDiv.innerText = "@Model.Feedback.Status";
+            selectedDiv.innerText = "@Model.Feedback.Status" == "InProgress" ? "In-Progress" : "@Model.Feedback.Status";
 
             customSelect.appendChild(selectedDiv);
 
@@ -99,7 +99,7 @@
                 let selectOptionDiv = document.createElement("div");
                 selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
 
-                if (selectOptionDiv.innerText == "@Model.Feedback.Status") selectOptionDiv.classList.add("customSelected");
+                if (selectOptionDiv.innerText == selectedDiv.innerText) selectOptionDiv.classList.add("customSelected");
 
                 selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
 
@@ -187,7 +187,7 @@
                     "Accept": "*/*",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(statusText)
+                body: JSON.stringify(statusText.replace("-", ""))
             }).then(response => response.json()).then(result => {
                 console.log(result);
             });
