@@ -42,7 +42,7 @@ namespace Product_Feedback_App.Controllers
 
                 Category = parseCategoryResult ? category : Category.Bug,
 
-                Status = Status.InProgress,
+                Status = Status.Suggestion,
 
                 Details = feedbackCreateViewModel.Details,
 

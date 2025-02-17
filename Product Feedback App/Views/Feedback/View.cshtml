@@ -64,7 +64,7 @@
 
             let selectedDiv = document.createElement("div");
             selectedDiv.classList.add("selectSelected");
-            selectedDiv.innerText = selectElement.options[selectElement.selectedIndex].innerText;
+            selectedDiv.innerText = "@Model.Feedback.Status";
 
             customSelect.appendChild(selectedDiv);
 
@@ -99,7 +99,7 @@
                 let selectOptionDiv = document.createElement("div");
                 selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
 
-                if (selectOptionIndex == 0) selectOptionDiv.classList.add("customSelected");
+                if (selectOptionDiv.innerText == "@Model.Feedback.Status") selectOptionDiv.classList.add("customSelected");
 
                 selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
 
