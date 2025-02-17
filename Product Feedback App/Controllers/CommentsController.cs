@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Product_Feedback_App.Data;
 using Product_Feedback_App.Models.Domain;
 using Product_Feedback_App.Models.Identity;
 using Product_Feedback_App.Models.View;

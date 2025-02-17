@@ -50,7 +50,12 @@ namespace Product_Feedback_App.Respositories
 
         public async Task<Feedback?> GetFeedbackByIdAsync(Guid id)
         {
-            Feedback? targetFeedback = await appDbContext.Feedback.Include(feedback => feedback.Upvotes).Include(feedback => feedback.Comments).FirstOrDefaultAsync(feedback => feedback.Id == id);
+            Feedback? targetFeedback = await appDbContext.Feedback.Include(feedback => feedback.Upvotes).Include(feedback => feedback.Comments).Include(feedback => feedback.Upvotes)                     // Include Upvotes
+                                 .Include(feedback => feedback.Comments)                    // Include Comments
+                                     .ThenInclude(comment => comment.User)                  // Include User for each Comment
+                                     .Include(feedback => feedback.Comments)                // Include Comments again
+                                         .ThenInclude(comment => comment.Replies)           // Include Replies for each Comment
+                                             .ThenInclude(reply => reply.User).FirstOrDefaultAsync(feedback => feedback.Id == id);
 
             if (targetFeedback == null) return null;
 

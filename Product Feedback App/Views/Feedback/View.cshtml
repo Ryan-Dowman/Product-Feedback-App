@@ -52,13 +52,13 @@
             {
                 AppUser user = comment.User;
                 <div class="comment">
-                    <img alt="Profile Picture" class="pfp" src="" />
+                    <img alt="Profile Picture" class="pfp" src="@user.ProfilePictureUrl" />
                     <div class="commentUserContainer">
-                        <p class="username"></p>
-                        <p class="email"></p>
+                        <p class="username">@user.UserName</p>
+                        <p class="email">@user.Email</p>
                     </div>
                     <p class="reply">Reply</p>
-                    <p class="commentContent"></p>
+                    <p class="commentContent">@comment.Content</p>
                 </div>
             }
         </div>
