@@ -61,7 +61,14 @@
                         <img alt="Profile Picture" class="pfp" src="@user.ProfilePictureUrl" />
                         <div class="commentTop">
                             <div class="commentUserContainer">
-                                <p class="username">@user.UserName <span>Admin</span></p>
+                                @if ((await userManager.GetRolesAsync(user)).Contains("Admin"))
+                                {
+                                    <p class="username">@user.UserName <span>Admin</span></p>
+                                }
+                                else
+                                {
+                                    <p class="username">@user.UserName</p>
+                                }
                                 <p class="email">@user.Email</p>
                             </div>
                             <div class="commentRHSControls">
@@ -92,7 +99,15 @@
                             <img alt="Profile Picture" class="pfp" src="@replyUser.ProfilePictureUrl" />
                             <div class="commentTop">
                                 <div class="commentUserContainer">
-                                    <p class="username">@replyUser.UserName <span>Admin</span></p>
+
+                                    @if ((await userManager.GetRolesAsync(replyUser)).Contains("Admin"))
+                                    {
+                                        <p class="username">@replyUser.UserName <span>Admin</span></p>
+                                    }
+                                    else
+                                    {
+                                        <p class="username">@replyUser.UserName</p>
+                                    }
                                     <p class="email">@replyUser.Email</p>
                                 </div>
                                 <div class="commentRHSControls">
@@ -332,7 +347,7 @@
                 for (replyElement of replyElements) {
                     console.log(replyElement);
                     replyElement.addEventListener("click", (event) => {
-                        let formElement = event.target.parentNode.parentNode.parentNode.getElementsByTagName("form")[0];
+                        let formElement = Array.from(event.target.parentNode.parentNode.parentNode.getElementsByTagName("form")).pop();
                         console.log(formElement);
                         formElement.classList.toggle("invisible");
                     });

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Product_Feedback_App.Models.Domain
+@using Product_Feedback_App.Models.Enums
 @using Product_Feedback_App.Models.Identity
 @using Product_Feedback_App.Models.View
 
@@ -8,6 +9,11 @@
 @{
     ViewData["Title"] = "Home Page";
     AppUser? user = await userManager.GetUserAsync(User);
+    string suggestionTitle = Model == null ? "0 Suggestions" : Model.FeedbackViewModels.Count == 1 ? "1 Suggestion" : $"{Model.FeedbackViewModels.Count} Suggestions";
+
+    int plannedCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Planned).Count() : 0;
+    int progressCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.InProgress).Count() : 0;
+    int liveCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Live).Count() : 0;
 }
 
 <div id="homeContainer">
@@ -34,15 +40,15 @@
             <div id="roadmapTrackerContainer">
                 <div class="roadmapTracker">
                     <div class="roadmapTrackerLHS"><span></span>Planned</div>
-                    <p class="roadmapTrackerValue">2</p>
+                    <p class="roadmapTrackerValue">@plannedCount</p>
                 </div>
                 <div class="roadmapTracker">
                     <div class="roadmapTrackerLHS"><span></span>In-Progress</div>
-                    <p class="roadmapTrackerValue">3</p>
+                    <p class="roadmapTrackerValue">@progressCount</p>
                 </div>
                 <div class="roadmapTracker">
                     <div class="roadmapTrackerLHS"><span></span>Live</div>
-                    <p class="roadmapTrackerValue">1</p>
+                    <p class="roadmapTrackerValue">@liveCount</p>
                 </div>
             </div>
         </div>
@@ -60,7 +66,7 @@
     <div id="homeRHS">
         <div id="feedbackBanner">
             <img id="suggestionIcon" src="/images/icons/suggestion.svg" alt="Suggestion Icon"/>
-            <p id="suggestionCount">6 Suggestions</p>
+            <p id="suggestionCount">@suggestionTitle</p>
             <div class="filterSelect">
                 <select id="sortBy">
                     <option value="Most Upvotes">Most Upvotes</option>
