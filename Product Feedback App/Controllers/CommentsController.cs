@@ -84,5 +84,20 @@ namespace Product_Feedback_App.Controllers
 
             return Redirect($"/Feedback/View/{feedbackId}");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            Comment? comment = await commentRepository.GetCommentByIdAsync(id);
+            AppUser? user = await userManager.GetUserAsync(User);
+
+            if (comment == null || user == null || (!User.IsInRole("Admin") && user.Id != comment.UserId.ToString())) return RedirectToAction("Index", "Home");
+
+            string feedbackId = comment.FeedbackId.ToString();
+
+            await commentRepository.DeleteCommentAsync(comment);
+
+            return Redirect($"/Feedback/View/{feedbackId}");
+        }
     }
 }

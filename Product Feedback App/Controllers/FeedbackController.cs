@@ -60,10 +60,7 @@ namespace Product_Feedback_App.Controllers
 
         [HttpGet]
         public async Task<IActionResult> View(Guid id)
-        {
-            
-            List<Comment> comments = await commentRepository.GetAllCommentsAsync();
-            
+        {   
             Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
 
             if (feedback == null) return View(null);

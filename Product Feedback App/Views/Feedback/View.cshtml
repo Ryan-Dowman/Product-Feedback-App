@@ -4,21 +4,24 @@
 @model Product_Feedback_App.Models.View.FeedbackViewViewModel
 @inject UserManager<AppUser> userManager
 @{
-
+    ViewData["Title"] = Model != null ? Model.Feedback.Title : "Error";
 }
 
 <div class="feeedbackViewContainer">
     <div class="feedbackViewContainerHeader">
         <a asp-controller="Home" asp-action="Index" class="back">Go Back</a>
         <div class="feedbackViewContainerHeaderRHS">
-            <div class="customSelect" id="categorySelect">
-                <select>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="customSelect" id="categorySelect">
+                    <select>
                     <option value="Suggestion">Suggestion</option>
                     <option value="Planned">Planned</option>
                     <option value="In-Progress">In-Progress</option>
                     <option value="Live">Live</option>
                 </select>
             </div>
+            }
             <div class="button blue">Edit Feedback</div>
         </div>
         
@@ -62,7 +65,15 @@
                                 <p class="email">@user.Email</p>
                             </div>
                             <div class="commentRHSControls">
-                                <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                @if (User.IsInRole("Admin") || user.Id == userManager.GetUserId(User))
+                                {
+                                    <form asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" style="line-height: 0px;">
+                                        <button type="submit" style="border: none; background: none; padding: 0; cursor: pointer; line-height: 0px;">
+                                            <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                        </button>
+                                    </form>
+                                    
+                                }
                                 <p class="reply">Reply</p>
                             </div>
                         </div>
@@ -85,7 +96,14 @@
                                     <p class="email">@replyUser.Email</p>
                                 </div>
                                 <div class="commentRHSControls">
-                                    <a class="invisible" asp-controller="Comments" asp-action="Delete" asp-route-id="@reply.Id"><img src="/images/icons/bin.svg" style="cursor: pointer" /></a>
+                                    @if (User.IsInRole("Admin") || replyUser.Id == userManager.GetUserId(User))
+                                    {
+                                        <form asp-controller="Comments" asp-action="Delete" asp-route-id="@reply.Id" style="line-height: 0px;">
+                                            <button type="submit" style="border: none; background: none; padding: 0; cursor: pointer; line-height: 0px;">
+                                                <img src="/images/icons/bin.svg" alt="Delete" />
+                                            </button>
+                                        </form>
+                                    }
                                     <p class="reply">Reply</p>
                                 </div>
                             </div>
