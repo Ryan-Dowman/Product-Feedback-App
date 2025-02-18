@@ -282,6 +282,15 @@ textarea {
     background-color: #7C91F9
 }
 
+.button.red {
+    background-color: #D73737;
+    color: white;
+}
+
+.button.red:hover {
+    background-color: #E98888
+}
+
 #feedbackContainer {
     height: 100%;
     width: 100%;

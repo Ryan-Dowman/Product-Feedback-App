@@ -81,22 +81,40 @@ namespace Product_Feedback_App.Controllers
             return View("View", feedbackViewViewModel);
         }
 
-        [HttpPost]
-        public IActionResult View(FeedbackViewViewModel feedbackViewViewModel)
-        {
-            return View();
-        }
-
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            return View();
+            Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
+
+            if (feedback == null) return RedirectToAction("Index", "Home");
+
+            FeedbackEditViewModel feedbackEditViewModel = new FeedbackEditViewModel
+            {
+                Id = feedback.Id,
+                Title = feedback.Title,
+                Category = feedback.Category,
+                Details = feedback.Details
+            };
+
+            return View(feedbackEditViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(FeedbackEditViewModel feedbackEditViewModel)
+        public async Task<IActionResult> Edit(FeedbackEditViewModel feedbackEditViewModel)
         {
-            return View();
+            if (!ModelState.IsValid) return View();
+
+            Feedback feedback = new Feedback
+            {
+                Id = feedbackEditViewModel.Id,
+                Title = feedbackEditViewModel.Title,
+                Category = feedbackEditViewModel.Category,
+                Details = feedbackEditViewModel.Details
+            };
+
+            await feedbackRepository.UpdateFeedbackAsync(feedback);
+
+            return RedirectToAction("View", "Feedback", new { id = feedbackEditViewModel.Id });
         }
 
         [HttpPost("api/feedback/edit/status/{feedbackId:Guid}")]
@@ -127,8 +145,12 @@ namespace Product_Feedback_App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            Feedback? feedback = await feedbackRepository.GetFeedbackByIdAsync(id);
+
+            if (feedback != null) await feedbackRepository.DeleteFeedbackById(feedback.Id);
+
             return RedirectToAction("Index", "Home");
         }
     }

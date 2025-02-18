@@ -1,4 +1,4 @@
-﻿@model Product_Feedback_App.Models.View.FeedbackCreateViewModel
+﻿@model Product_Feedback_App.Models.View.FeedbackEditViewModel
 @{
 }
 
@@ -6,9 +6,10 @@
     <a asp-controller="Home" asp-action="Index" class="back">Go Back</a>
     <form class="form" method="post">
         <div class="formCircle">
-            <img src="/images/icons/plus.svg" alt="Create Feedback" />
+            <img src="/images/icons/plus.svg" alt="Edit Feedback" />
         </div>
-        <h2>Create New Feedback</h2>
+        <h2>Edit Feedback</h2>
+        <input type="hidden" asp-for="Id" />
         <div class="formInputContainers">
             <div class="formInputLabelContainer">
                 <label for="feedbackTitle" class="labelPrimary">Feedback Title</label>
@@ -39,10 +40,12 @@
             </div>
         </div>
         <div class="formButtons">
-            <a asp-controller="Home" asp-action="Index" class="invisible"><button class="button grey" type="button">Cancel</button></a>
-            <button class="button purple" type="submit">Add Feedback</button>
+            <button class="button red" style="margin-right: auto" type="button" onclick="document.getElementById('deleteForm').submit()">Delete</button>
+            <a asp-controller="Feedback" asp-action="View" asp-route-id="@Model.Id" class="invisible"><button class="button grey" type="button">Cancel</button></a>
+            <button class="button purple" type="submit">Save Changes</button>
         </div>
     </form>
+    <form id="deleteForm" asp-controller="Feedback" asp-action="Delete" asp-route-id="@Model.Id" method="post"></form>
 </div>
 
 @section Scripts {
@@ -118,12 +121,12 @@
 
 
             for (let targetElementIndex in Array.from(selectedItems)) {
-                
+
                 let targetElement = selectedItems[targetElementIndex];
-                
+
                 if (targetElement == element) {
                     elementIndexArray.push(targetElementIndex);
-                }else{
+                } else {
                     targetElement.classList.remove("selectArrowActive");
                 }
             }
@@ -145,9 +148,9 @@
             let currentlySelectedDiv = targetNode.parentNode.previousSibling;
 
             for (let selectOptionIndex in Array.from(parentSelect)) {
-                
+
                 let selectOption = parentSelect[selectOptionIndex];
-                
+
                 if (selectOption.innerText == targetNode.innerText) {
 
                     parentSelect.selectedIndex = selectOptionIndex;

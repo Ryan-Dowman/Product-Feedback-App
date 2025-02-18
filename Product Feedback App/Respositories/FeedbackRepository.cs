@@ -62,13 +62,10 @@ namespace Product_Feedback_App.Respositories
 
             if (targetFeedback == null) return null;
 
-            targetFeedback.UserId = feedback.UserId;
             targetFeedback.Title = feedback.Title;
             targetFeedback.Category = feedback.Category;
             targetFeedback.Status = feedback.Status;
             targetFeedback.Details = feedback.Details;
-            targetFeedback.Upvotes = feedback.Upvotes;
-            targetFeedback.Comments = feedback.Comments;
 
             await appDbContext.SaveChangesAsync();
 

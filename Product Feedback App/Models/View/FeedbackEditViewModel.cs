@@ -5,12 +5,15 @@ namespace Product_Feedback_App.Models.View
 {
     public class FeedbackEditViewModel
     {
+        [Required]
+        public Guid Id { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
-        public string Category { get; set; }
+        public Category Category { get; set; }
 
-        public string StatusName { get; set; }
-
+        [Required]
         public string Details { get; set; }
     }
 }
