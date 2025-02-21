@@ -792,6 +792,7 @@ textarea {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: 50px;
+    gap: 30px
 }
 
 .roadmapCategoryHeader p:nth-child(1) {
@@ -803,6 +804,7 @@ textarea {
 .roadmapCategoryHeader p:nth-child(2) {
     color: var(--blue-grey);
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .roadmapItem {
@@ -812,6 +814,7 @@ textarea {
     max-width: 350px;
     width: 100%;
     position: relative;
+    margin-bottom: 25px;
 }
 
 .topBorder {
@@ -826,4 +829,39 @@ textarea {
 .topBorder.planned {
     background-color: var(--orange);
     border-radius: 10px 10px 0px 0px;
+}
+
+.roadmapItemCategory {
+    color: var(--blue-grey);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.roadmapItemCategory:before {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    content: "";
+    margin-right: 16px;
+    border-radius: 50%;
+}
+
+.roadmapItemCategory.planned:before {
+    background-color: var(--orange);
+}
+
+.roadmapItemDetails {
+    color: var(--blue-grey);
+    font-size: 16px;
+}
+
+.roadmapItem .category {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.roadmapBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
