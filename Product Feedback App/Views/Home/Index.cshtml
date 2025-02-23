@@ -124,7 +124,6 @@
 
             for (upvoteButton of upvoteButtons) {
                 upvoteButton.addEventListener("click", (event) => {
-                    console.log("click");
                     fetch("/api/upvotes/add", {
                         method: "Post",
                         headers: {

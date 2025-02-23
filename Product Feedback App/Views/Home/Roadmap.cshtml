@@ -1,6 +1,9 @@
-﻿@using Product_Feedback_App.Models.Domain
+﻿@using Microsoft.AspNetCore.Identity
+@using Product_Feedback_App.Models.Domain
 @using Product_Feedback_App.Models.Enums
+@using Product_Feedback_App.Models.Identity
 @using Product_Feedback_App.Models.View
+@inject UserManager<AppUser> userManager;
 @model Product_Feedback_App.Models.View.HomeIndexViewModel
 @{
     ViewData["Title"] = "Roadmap";
@@ -36,7 +39,14 @@
                         <div class="roadmapItemDetails">@feedback.Details</div>
                         <div class="category">@feedback.Category.ToString()</div>
                         <div class="roadmapBottom">
-                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            @if (feedbackViewModel.UserHasUpvoted)
+                            {
+                                <div class="feedbackUpvotes upvoted" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
+                            else
+                            {
+                                <div class="feedbackUpvotes" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
                             <div class="feedbackRHS">
                                 <img src="/images/icons/comment.svg" class="comment" />
                                 <p>@feedback.Comments.Count</p>
@@ -65,7 +75,14 @@
                         <div class="roadmapItemDetails">@feedback.Details</div>
                         <div class="category">@feedback.Category.ToString()</div>
                         <div class="roadmapBottom">
-                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            @if (feedbackViewModel.UserHasUpvoted)
+                            {
+                                <div class="feedbackUpvotes upvoted" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
+                            else
+                            {
+                                <div class="feedbackUpvotes" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
                             <div class="feedbackRHS">
                                 <img src="/images/icons/comment.svg" class="comment" />
                                 <p>@feedback.Comments.Count</p>
@@ -93,7 +110,14 @@
                         <div class="roadmapItemDetails">@feedback.Details</div>
                         <div class="category">@feedback.Category.ToString()</div>
                         <div class="roadmapBottom">
-                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            @if (feedbackViewModel.UserHasUpvoted)
+                            {
+                                <div class="feedbackUpvotes upvoted" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
+                            else
+                            {
+                                <div class="feedbackUpvotes" style="flex-direction: row; width: min-content" id="@feedback.Id">@feedback.Upvotes.Count</div>
+                            }
                             <div class="feedbackRHS">
                                 <img src="/images/icons/comment.svg" class="comment" />
                                 <p>@feedback.Comments.Count</p>
@@ -105,3 +129,41 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        ApplyEventListenersToUpvoteButtons();
+
+        function ApplyEventListenersToUpvoteButtons() {
+            let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
+
+            for (upvoteButton of upvoteButtons) {
+                upvoteButton.addEventListener("click", (event) => {
+                    fetch("/api/upvotes/add", {
+                        method: "Post",
+                        headers: {
+                            "Accept": "*/*",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
+                    }).then(result => {
+                        GenerateNewUpvoteTotal(event.target);
+                    });
+                });
+            }
+        }
+
+        function GenerateNewUpvoteTotal(element) {
+            fetch(`/api/upvotes/${element.id}/Upvotes`, {
+                method: "Get",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                }
+            }).then(reponse => reponse.json()).then(result => {
+                document.getElementById(element.id).innerText = result;
+                document.getElementById(element.id).classList.toggle("upvoted");
+            })
+        }
+    </script>
+}
