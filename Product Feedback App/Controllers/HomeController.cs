@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Product_Feedback_App.Models;
 using Product_Feedback_App.Models.Domain;
+using Product_Feedback_App.Models.Enums;
 using Product_Feedback_App.Models.Identity;
 using Product_Feedback_App.Models.View;
 using Product_Feedback_App.Respositories;
@@ -25,16 +26,36 @@ namespace Product_Feedback_App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string? orderBy)
+        public async Task<IActionResult> Index(string? orderBy, string? categoriesFilter)
         {
             List<Feedback> allFeedback = await feedbackRepository.GetAllFeedbackAsync();
 
             if (!string.IsNullOrEmpty(orderBy))
             {
                 if (orderBy.Equals("Least Upvotes")) allFeedback = allFeedback.OrderBy(feedback => feedback.Upvotes.Count).ToList();
-                else if (orderBy.Equals("Least Comments")) allFeedback = allFeedback.OrderByDescending(feedback => feedback.Comments.Count).ToList();
-                else if (orderBy.Equals("Most Comments")) allFeedback = allFeedback.OrderBy(feedback => feedback.Comments.Count).ToList();
+                else if (orderBy.Equals("Least Comments")) allFeedback = allFeedback.OrderBy(feedback => feedback.Comments.Count).ToList();
+                else if (orderBy.Equals("Most Comments")) allFeedback = allFeedback.OrderByDescending(feedback => feedback.Comments.Count).ToList();
                 else allFeedback = allFeedback.OrderByDescending(feedback => feedback.Upvotes.Count).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(categoriesFilter))
+            {
+                string[] categoryNames = categoriesFilter
+                    .Split(',')
+                    .Select(c => c.Trim())
+                    .ToArray();
+
+                List<Category> validCategories = new();
+
+                foreach (string categoryName in categoryNames)
+                {
+                    if (Enum.TryParse(categoryName, out Category category))
+                    {
+                        validCategories.Add(category);
+                    }
+                }
+
+                allFeedback = allFeedback.Where(feedback => validCategories.Contains(feedback.Category)).ToList();
             }
 
             HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();

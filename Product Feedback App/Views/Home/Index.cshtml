@@ -3,6 +3,7 @@
 @using Product_Feedback_App.Models.Enums
 @using Product_Feedback_App.Models.Identity
 @using Product_Feedback_App.Models.View
+@using System.Web
 
 @model HomeIndexViewModel
 @inject UserManager<AppUser> userManager
@@ -14,6 +15,14 @@
     int plannedCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Planned).Count() : 0;
     int progressCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.InProgress).Count() : 0;
     int liveCount = Model != null ? Model.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Live).Count() : 0;
+
+    List<string>? categoriesFilterNames = Context.Request.Query["categoriesFilter"].ToString().Split(",").ToList();
+    bool allSelected = categoriesFilterNames.Count == 1 && categoriesFilterNames[0] == "";
+
+    Dictionary<string, string> queryParams = Context.Request.Query.ToDictionary(q => q.Key, q => q.Value.ToString());
+    queryParams.TryGetValue("orderBy", out string? orderByValue);
+
+    orderByValue = orderByValue is not null ? HttpUtility.UrlDecode(orderByValue) : null;
 }
 
 <div id="homeContainer">
@@ -25,12 +34,12 @@
             </div>
         </div>
         <div class="widget" id="categoriesWidget">
-            <div class="category categoryOn">All</div>
-            <div class="category">UI</div>
-            <div class="category">UX</div>
-            <div class="category">Enhancement</div>
-            <div class="category">Bug</div>
-            <div class="category">Feature</div>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter=""><div class="category @(allSelected ? "categoryOn" : "")">All</div></a>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter="@(!categoriesFilterNames.Contains("UI") ? string.Join(",", new List<string>(categoriesFilterNames) { "UI" }) : string.Join(",", categoriesFilterNames.Where(value=> value != "UI").ToArray()))"><div class="category @(categoriesFilterNames.Contains("UI") ? "categoryOn" : "")">UI</div></a>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter="@(!categoriesFilterNames.Contains("UX") ? string.Join(",", new List<string>(categoriesFilterNames) { "UX" }) : string.Join(",", categoriesFilterNames.Where(value=> value != "UX").ToArray()))"><div class="category @(categoriesFilterNames.Contains("UX") ? "categoryOn" : "")">UX</div></a>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter="@(!categoriesFilterNames.Contains("Enhancement") ? string.Join(",", new List<string>(categoriesFilterNames) { "Enhancement" }) : string.Join(",", categoriesFilterNames.Where(value=> value != "Enhancement").ToArray()))"><div class="category @(categoriesFilterNames.Contains("Enhancement") ? "categoryOn" : "")">Enhancement</div></a>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter="@(!categoriesFilterNames.Contains("Bug") ? string.Join(",", new List<string>(categoriesFilterNames) { "Bug" }) : string.Join(",", categoriesFilterNames.Where(value=> value != "Bug").ToArray()))"><div class="category @(categoriesFilterNames.Contains("Bug") ? "categoryOn" : "")">Bug</div></a>
+            <a class="invisible" asp-area="" asp-controller="Home" asp-action="Index" asp-route-orderBy="@orderByValue" asp-route-categoriesFilter="@(!categoriesFilterNames.Contains("Feature") ? string.Join(",", new List<string>(categoriesFilterNames) { "Feature" }) : string.Join(",", categoriesFilterNames.Where(value=> value != "Feature").ToArray()))"><div class="category @(categoriesFilterNames.Contains("Feature") ? "categoryOn" : "")">Feature</div></a>
         </div>
         <div class="widget" id="roadmapWidget">
             <div class="widgetHeader">
@@ -159,7 +168,7 @@
             let orderByParam = params.find(param => param.includes("orderBy"));
             console.log(orderByParam);
             let orderByValue = orderByParam == undefined || !["Most%20Upvotes", "Least%20Upvotes", "Most%20Comments", "Least%20Comments"].includes(orderByParam.split("=")[1]) ? "" : orderByParam.split("=")[1].replace("%20", " ");
-
+            console.log(orderByValue);
             let selectElement = customSelect.getElementsByTagName("select")[0];
 
             let selectedDiv = document.createElement("div");
@@ -257,7 +266,9 @@
 
         function customOptionSelect(event, overrideElement) {
 
-            window.location.href = "/?orderBy=" + event.target.innerText
+            const params = new URLSearchParams(window.location.search);
+            params.set("orderBy", decodeURIComponent(event.target.innerText));
+            window.location.href = window.location.pathname + "?" + params.toString().replace(/\+/g, "%20");
 
             let targetNode = overrideElement == null ? event.target : overrideElement;
 
