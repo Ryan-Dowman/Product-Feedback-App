@@ -88,6 +88,10 @@ namespace Product_Feedback_App.Controllers
 
             if (feedback == null) return RedirectToAction("Index", "Home");
 
+            AppUser? user = await userManager.GetUserAsync(User);
+
+            if (user == null || (!User.IsInRole("Admin") && user.Id != feedback.UserId.ToString())) return RedirectToAction("Index", "Home");
+
             FeedbackEditViewModel feedbackEditViewModel = new FeedbackEditViewModel
             {
                 Id = feedback.Id,
@@ -111,6 +115,10 @@ namespace Product_Feedback_App.Controllers
                 Category = feedbackEditViewModel.Category,
                 Details = feedbackEditViewModel.Details
             };
+
+            AppUser? user = await userManager.GetUserAsync(User);
+
+            if (user == null || (!User.IsInRole("Admin") && user.Id != feedback.UserId.ToString())) return View();
 
             await feedbackRepository.UpdateFeedbackAsync(feedback);
 

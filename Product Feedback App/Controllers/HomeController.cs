@@ -25,9 +25,17 @@ namespace Product_Feedback_App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? orderBy)
         {
             List<Feedback> allFeedback = await feedbackRepository.GetAllFeedbackAsync();
+
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                if (orderBy.Equals("Least Upvotes")) allFeedback = allFeedback.OrderBy(feedback => feedback.Upvotes.Count).ToList();
+                else if (orderBy.Equals("Least Comments")) allFeedback = allFeedback.OrderByDescending(feedback => feedback.Comments.Count).ToList();
+                else if (orderBy.Equals("Most Comments")) allFeedback = allFeedback.OrderBy(feedback => feedback.Comments.Count).ToList();
+                else allFeedback = allFeedback.OrderByDescending(feedback => feedback.Upvotes.Count).ToList();
+            }
 
             HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();
             homeIndexViewModel.FeedbackViewModels = new();

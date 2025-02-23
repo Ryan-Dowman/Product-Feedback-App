@@ -304,6 +304,7 @@ textarea {
     align-items: center;
     justify-content: space-between;
     padding: 28px 35px;
+    margin-bottom: 20px
 }
 
 .feedback .category {

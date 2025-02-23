@@ -67,8 +67,8 @@
         <div id="feedbackBanner">
             <img id="suggestionIcon" src="/images/icons/suggestion.svg" alt="Suggestion Icon"/>
             <p id="suggestionCount">@suggestionTitle</p>
-            <div class="filterSelect">
-                <select id="sortBy">
+            <div class="customSelect" id="orderBySelect" style="max-width: 200px; height: min-content;">
+                <select>
                     <option value="Most Upvotes">Most Upvotes</option>
                     <option value="Least Upvotes">Least Upvotes</option>
                     <option value="Most Comments">Most Comments</option>
@@ -150,5 +150,143 @@
                 document.getElementById(element.id).classList.toggle("upvoted");
             })
         }
+
+        let customSelects = document.getElementsByClassName("customSelect");
+
+        for (let customSelect of customSelects) {
+
+            let params = window.location.search.split("&");
+            let orderByParam = params.find(param => param.includes("orderBy"));
+            console.log(orderByParam);
+            let orderByValue = orderByParam == undefined || !["Most%20Upvotes", "Least%20Upvotes", "Most%20Comments", "Least%20Comments"].includes(orderByParam.split("=")[1]) ? "" : orderByParam.split("=")[1].replace("%20", " ");
+
+            let selectElement = customSelect.getElementsByTagName("select")[0];
+
+            let selectedDiv = document.createElement("div");
+            selectedDiv.classList.add("selectSelected");
+
+            if (orderByValue != "") {
+                selectedDiv.innerText = orderByValue;
+            } else {
+                selectedDiv.innerText = selectElement.options[selectElement.selectedIndex].innerText;
+            }
+
+            customSelect.appendChild(selectedDiv);
+
+            let selectOptionsDiv = document.createElement("div");
+            selectOptionsDiv.classList.add("selectItems", "selectHide");
+
+            let targetLabels = Array.from(document.getElementsByTagName("label")).filter(label => label.htmlFor == customSelect.id);
+
+            for (let label of targetLabels) {
+                label.addEventListener("click", (event) => {
+                    event.preventDefault()
+
+                    let customSelect = document.getElementById(event.target.htmlFor)
+                    if (!customSelect) return
+
+                    let selectedDiv = customSelect.querySelector(".selectSelected")
+                    let optionsDiv = customSelect.querySelector(".selectItems")
+
+                    if (selectedDiv && optionsDiv) {
+                        event.stopPropagation()
+                        closeAllSelect(selectedDiv)
+
+                        optionsDiv.classList.toggle("selectHide")
+                        selectedDiv.classList.toggle("selectArrowActive")
+                    }
+                });
+            }
+
+            for (let selectOptionIndex in Array.from(selectElement.children)) {
+                let selectOption = selectElement[selectOptionIndex];
+
+                let selectOptionDiv = document.createElement("div");
+                selectOptionDiv.innerText = selectElement[selectOptionIndex].innerHTML;
+                if (orderByValue != "") {
+                    if (selectOptionDiv.innerText == orderByValue) selectOptionDiv.classList.add("customSelected");
+                }else{
+                    if (selectOptionIndex == 0) selectOptionDiv.classList.add("customSelected");
+                }
+
+                selectOptionDiv.addEventListener("click", (event) => customOptionSelect(event));
+
+                selectOptionsDiv.appendChild(selectOptionDiv);
+            }
+
+            customSelect.appendChild(selectOptionsDiv);
+
+            selectedDiv.addEventListener("click", (event) => {
+                let targetNode = event.target;
+
+                event.stopPropagation();
+                closeAllSelect(targetNode);
+
+                targetNode.nextSibling.classList.toggle("selectHide");
+                targetNode.classList.toggle("selectArrowActive");
+            });
+        }
+
+        function closeAllSelect(element) {
+
+            let selectItems = document.getElementsByClassName("selectItems");
+            let selectedItems = document.getElementsByClassName("selectSelected");
+            let elementIndexArray = [];
+
+
+            for (let targetElementIndex in Array.from(selectedItems)) {
+
+                let targetElement = selectedItems[targetElementIndex];
+
+                if (targetElement == element) {
+                    elementIndexArray.push(targetElementIndex);
+                } else {
+                    targetElement.classList.remove("selectArrowActive");
+                }
+            }
+
+            for (let targetElementIndex in Array.from(selectItems)) {
+
+                let targetElement = selectItems[targetElementIndex];
+
+                if (elementIndexArray.indexOf(targetElementIndex)) {
+                    targetElement.classList.add("selectHide");
+                }
+            }
+        }
+
+        function customOptionSelect(event, overrideElement) {
+
+            window.location.href = "/?orderBy=" + event.target.innerText
+
+            let targetNode = overrideElement == null ? event.target : overrideElement;
+
+            let parentSelect = targetNode.parentNode.parentNode.getElementsByTagName("select")[0];
+            let currentlySelectedDiv = targetNode.parentNode.previousSibling;
+
+            for (let selectOptionIndex in Array.from(parentSelect)) {
+
+                let selectOption = parentSelect[selectOptionIndex];
+
+                if (selectOption.innerText == targetNode.innerText) {
+
+                    parentSelect.selectedIndex = selectOptionIndex;
+                    currentlySelectedDiv.innerText = targetNode.innerText;
+
+                    let selectedOptions = targetNode.parentNode.getElementsByClassName("customSelected");
+
+                    for (let selectOption of selectedOptions) {
+                        selectOption.className = "";
+                    }
+
+                    targetNode.classList.add("customSelected");
+                    break;
+
+                }
+            }
+
+        }
+
+        document.addEventListener("click", closeAllSelect);
     </script>
 }
