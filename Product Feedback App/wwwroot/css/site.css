@@ -824,11 +824,19 @@ textarea {
     height: 6px;
     width: 100%;
     display: block;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .topBorder.planned {
     background-color: var(--orange);
-    border-radius: 10px 10px 0px 0px;
+}
+
+.topBorder.in-progress {
+    background-color: var(--purple);
+}
+
+.topBorder.live {
+    background-color: var(--lightblue);
 }
 
 .roadmapItemCategory {
@@ -848,6 +856,14 @@ textarea {
 
 .roadmapItemCategory.planned:before {
     background-color: var(--orange);
+}
+
+.roadmapItemCategory.in-progress:before {
+    background-color: var(--purple);
+}
+
+.roadmapItemCategory.live:before {
+    background-color: var(--lightblue);
 }
 
 .roadmapItemDetails {

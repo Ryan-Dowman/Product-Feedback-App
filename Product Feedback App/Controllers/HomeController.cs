@@ -47,9 +47,25 @@ namespace Product_Feedback_App.Controllers
         }
 
         [HttpGet]
-        public IActionResult Roadmap()
+        public async Task<IActionResult> Roadmap()
         {
-            return View();
+            List<Feedback> allFeedback = await feedbackRepository.GetAllFeedbackAsync();
+
+            HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();
+            homeIndexViewModel.FeedbackViewModels = new();
+
+            foreach (Feedback feedback in allFeedback)
+            {
+                homeIndexViewModel.FeedbackViewModels.Add(
+                   new FeedbackViewModel()
+                   {
+                       Feedback = feedback,
+                       UserHasUpvoted = feedback.Upvotes.FirstOrDefault(upvote => upvote.UserId == Guid.Parse(userManager.GetUserId(User))) != null
+                   }
+                );
+            }
+
+            return View(homeIndexViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,11 +1,18 @@
-﻿@{
+﻿@using Product_Feedback_App.Models.Domain
+@using Product_Feedback_App.Models.Enums
+@using Product_Feedback_App.Models.View
+@model Product_Feedback_App.Models.View.HomeIndexViewModel
+@{
     ViewData["Title"] = "Roadmap";
+    List<FeedbackViewModel> plannedFeedback = Model?.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Planned).ToList();
+    List<FeedbackViewModel> inProgressFeedback = Model?.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.InProgress).ToList();
+    List<FeedbackViewModel> liveFeedback = Model?.FeedbackViewModels.Where(feedback => feedback.Feedback.Status == Status.Live).ToList();
 }
 
 <div class="roadmapContainer">
     <div class="roadmapHeader">
         <div class="roadmapHeaderLHS">
-            <a class="back">Back</a>
+            <a class="back" asp-controller="Home" asp-action="Index">Back</a>
             <p>Roadmap</p>
         </div>
         <a class="invisible" style="margin-left: auto;" asp-controller="Feedback" asp-action="Create"><button class="button purple">+ Add Feedback</button></a>
@@ -16,33 +23,85 @@
                 <p>Planned</p>
                 <p>Ideas prioritized for research</p>
             </div>
-            <div class="roadmapItem">
-                <div class="topBorder planned"></div>
-                <div class="roadmapItemCategory planned">Planned</div>
-                <a class="invisible" asp-area="" asp-controller="Feedback" asp-action="View"><p class="feedbackTitle">More comprehensive reports</p></a>
-                <div class="roadmapItemDetails">It would be great to see a more detailed breakdown of solutions.</div>
-                <div class="category">Feature</div>
-                <div class="roadmapBottom">
-                    <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">60</div>
-                    <div class="feedbackRHS">
-                        <img src="/images/icons/comment.svg" class="comment" />
-                        <p>2</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @if (Model != null && plannedFeedback.Any())
+            {
+                foreach (FeedbackViewModel feedbackViewModel in plannedFeedback)
+                {
+                    Feedback feedback = feedbackViewModel.Feedback;
 
+                    <div class="roadmapItem">
+                        <div class="topBorder planned"></div>
+                        <div class="roadmapItemCategory planned">Planned</div>
+                        <a class="invisible" asp-area="" asp-controller="Feedback" asp-action="View" asp-route-id="@feedback.Id"><p class="feedbackTitle">@feedback.Title</p></a>
+                        <div class="roadmapItemDetails">@feedback.Details</div>
+                        <div class="category">@feedback.Category.ToString()</div>
+                        <div class="roadmapBottom">
+                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            <div class="feedbackRHS">
+                                <img src="/images/icons/comment.svg" class="comment" />
+                                <p>@feedback.Comments.Count</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            
+        </div>
         <div class="roadmapCategory">
             <div class="roadmapCategoryHeader">
                 <p>In-Progress</p>
                 <p>Currently being developed</p>
             </div>
+            @if (Model != null && inProgressFeedback.Any())
+            {
+                foreach (FeedbackViewModel feedbackViewModel in inProgressFeedback)
+                {
+                    Feedback feedback = feedbackViewModel.Feedback;
+
+                    <div class="roadmapItem">
+                        <div class="topBorder in-progress"></div>
+                        <div class="roadmapItemCategory in-progress">In-Progress</div>
+                        <a class="invisible" asp-area="" asp-controller="Feedback" asp-action="View" asp-route-id="@feedback.Id"><p class="feedbackTitle">@feedback.Title</p></a>
+                        <div class="roadmapItemDetails">@feedback.Details</div>
+                        <div class="category">@feedback.Category.ToString()</div>
+                        <div class="roadmapBottom">
+                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            <div class="feedbackRHS">
+                                <img src="/images/icons/comment.svg" class="comment" />
+                                <p>@feedback.Comments.Count</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
         <div class="roadmapCategory">
             <div class="roadmapCategoryHeader">
                 <p>Live</p>
                 <p>Released features</p>
             </div>
+            @if (Model != null && liveFeedback.Any())
+            {
+                foreach (FeedbackViewModel feedbackViewModel in liveFeedback)
+                {
+                    Feedback feedback = feedbackViewModel.Feedback;
+
+                    <div class="roadmapItem">
+                        <div class="topBorder live"></div>
+                        <div class="roadmapItemCategory live">Live</div>
+                        <a class="invisible" asp-area="" asp-controller="Feedback" asp-action="View" asp-route-id="@feedback.Id"><p class="feedbackTitle">@feedback.Title</p></a>
+                        <div class="roadmapItemDetails">@feedback.Details</div>
+                        <div class="category">@feedback.Category.ToString()</div>
+                        <div class="roadmapBottom">
+                            <div class="feedbackUpvotes" style="flex-direction: row; width: min-content">@feedback.Upvotes.Count</div>
+                            <div class="feedbackRHS">
+                                <img src="/images/icons/comment.svg" class="comment" />
+                                <p>@feedback.Comments.Count</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
