@@ -123,7 +123,7 @@ textarea {
     letter-spacing: 0.5px;
     font-weight: bold;
     width: min-content;
-    height: auto;
+    height: min-content;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -400,10 +400,29 @@ textarea {
 }
 
 /* Home Page Responsive Styles */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     #homeContainer {
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr;
+    }
+
+    #homeLHS {
+        grid-template-rows: auto auto;
+        grid-template-columns: auto auto auto;
+        width: 100%;
+        max-width: none;
+    }
+
+    #roadmapWidget {
+        min-width: 200px
+    }
+
+    #titleWidget {
+        height: 100%
+    }
+
+    #userWidget {
+        grid-column: span 3
     }
 }
 
@@ -880,4 +899,18 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+/* Roadmap Page Responsive Styles */
+@media only screen and (max-width: 900px) {
+    .roadmapBody {
+        grid-template-columns: 1fr;
+        width: 100%;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .roadmapCategoryHeader {
+        text-align: center
+    }
 }
