@@ -8,6 +8,7 @@ using Product_Feedback_App.Models.Identity;
 using Product_Feedback_App.Models.View;
 using Product_Feedback_App.Respositories;
 using System.Diagnostics;
+using System.Web;
 
 namespace Product_Feedback_App.Controllers
 {
@@ -28,6 +29,9 @@ namespace Product_Feedback_App.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string? orderBy, string? categoriesFilter)
         {
+
+            if (categoriesFilter is not null) categoriesFilter = HttpUtility.UrlDecode(categoriesFilter);
+
             List<Feedback> allFeedback = await feedbackRepository.GetAllFeedbackAsync();
 
             if (!string.IsNullOrEmpty(orderBy))
