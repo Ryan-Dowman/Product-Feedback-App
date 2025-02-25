@@ -34,7 +34,7 @@ namespace Product_Feedback_App.Respositories
 
         private async Task<Upvote> RemoveUpvoteAsync(Upvote upvote)
         {
-            Upvote? targetUpvote = await appDbContext.Upvotes.FirstOrDefaultAsync(exisitngUpvote => exisitngUpvote.UserId == upvote.UserId && exisitngUpvote.FeedbackId == upvote.FeedbackId);
+            Upvote? targetUpvote = await appDbContext.Upvotes.FirstOrDefaultAsync(x => x.UserId == upvote.UserId && x.FeedbackId == upvote.FeedbackId);
 
             if (targetUpvote != null)
             {
@@ -47,7 +47,7 @@ namespace Product_Feedback_App.Respositories
 
         async Task<Upvote> IUpvoteRepository.SubmitUpvoteAsync(Upvote upvote)
         {
-            Upvote? existingUpvote = await appDbContext.Upvotes.FirstOrDefaultAsync(exisitngUpvote => exisitngUpvote.UserId == upvote.UserId && exisitngUpvote.FeedbackId == upvote.FeedbackId);
+            Upvote? existingUpvote = await appDbContext.Upvotes.FirstOrDefaultAsync(x => x.UserId == upvote.UserId && x.FeedbackId == upvote.FeedbackId);
 
             if (existingUpvote != null)
             {

@@ -148,16 +148,17 @@
         function ApplyEventListenersToUpvoteButtons() {
             let upvoteButtons = Array.from(document.getElementsByClassName("feedbackUpvotes"));
 
-            for (upvoteButton of upvoteButtons) {
+            for (let upvoteButton of upvoteButtons) {
                 upvoteButton.addEventListener("click", (event) => {
                     fetch("/api/upvotes/add", {
-                        method: "Post",
+                        method: "POST",
                         headers: {
                             "Accept": "*/*",
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({ feedbackId: upvoteButton.id, userId: "@userManager.GetUserId(User)" })
                     }).then(result => {
+                        console.log(result);
                         GenerateNewUpvoteTotal(event.target);
                     });
                 });
@@ -166,12 +167,13 @@
 
         function GenerateNewUpvoteTotal(element) {
             fetch(`/api/upvotes/${element.id}/Upvotes`, {
-                method: "Get",
+                method: "GET",
                 headers: {
                     "Accept": "*/*",
                     "Content-Type": "application/json"
                 }
-            }).then(reponse => reponse.json()).then(result => {
+            }).then(response => response.json()).then(result => {
+                console.log(result);
                 document.getElementById(element.id).innerText = result;
                 document.getElementById(element.id).classList.toggle("upvoted");
             })
@@ -183,9 +185,7 @@
 
             let params = window.location.search.split("&");
             let orderByParam = params.find(param => param.includes("orderBy"));
-            console.log(orderByParam);
             let orderByValue = orderByParam == undefined || !["Most%20Upvotes", "Least%20Upvotes", "Most%20Comments", "Least%20Comments"].includes(orderByParam.split("=")[1]) ? "" : orderByParam.split("=")[1].replace("%20", " ");
-            console.log(orderByValue);
             let selectElement = customSelect.getElementsByTagName("select")[0];
 
             let selectedDiv = document.createElement("div");
