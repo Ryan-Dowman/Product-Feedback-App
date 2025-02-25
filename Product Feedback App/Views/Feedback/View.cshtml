@@ -22,7 +22,8 @@
                 </select>
             </div>
             }
-            @if (Model.Feedback.UserId.ToString() == userManager.GetUserId(User)){
+            @if (Model != null && Model.Feedback.UserId.ToString() == userManager.GetUserId(User))
+            {
 
                 <a asp-controller="Feedback" asp-action="Edit" asp-route-id="@Model.Feedback.Id" class="invisible"><div class="button blue">Edit Feedback</div></a>
             }
