@@ -9,19 +9,19 @@
 - [Notes](#notes)
 
 ## Introduction
-### Disclaimer: The design I utilised by frontend mentor did not include any pages or designs related to this projeect being fullstack. Due to this some common fullstack functionalities like an admin panel was ommitted as well as all backend related content and pages were my own creation and implementation. 
+### Disclaimer: The design I utilized by Frontend Mentor did not include any pages or designs related to this project being full-stack. Due to this, some common full-stack functionalities like an admin panel were omitted, as well as all backend-related content and pages, were my own creation and implementation. 
 
-A Full Stack Web App that functions as a forum for users of a system to post suggestions, issues and potential changes for developers.
+A Full Stack Web App that functions as a forum for users of a system to post suggestions, issues, and potential changes for developers.
 
 ## Showcase
 ### Login Page / Registration Page
-Powered by Microsoftsoft Identity and a designated AuthDb managed with SQL Server Management Studio. Registration page also enables image upload for profile pictures to the api/images route that locally stores the images and creates GUID names to ensure no naming conflicts.
+Powered by Microsoft Identity and a designated AuthDb managed with SQL Server Management Studio. The registration page also enables image upload for profile pictures to the api/images route that locally stores the images and creates GUID names to ensure no naming conflicts.
 
 ![chrome_O1NedSdDeZ](https://github.com/user-attachments/assets/c5e4e75a-5818-46a1-8dea-c2edbe1ed6dd)
 ![chrome_45Qrj9t6pi](https://github.com/user-attachments/assets/63011d2b-f0b1-4694-8f09-09e3db5fa579)
 
 ### Home Page
-Including ordering and filtering functionaility as well as the ability to upvote feedback posts direct from the home page.
+Including ordering and filtering functionality as well as the ability to upvote feedback posts directly from the home page.
 ![chrome_DFrt9lDKSW](https://github.com/user-attachments/assets/73e52fb3-8103-48a3-89c4-43261c72007d)
 
 ### Roadmap Page
@@ -29,21 +29,21 @@ Shows the status of each feedback post such that users can see the progress of e
 ![chrome_5LlR532m8D](https://github.com/user-attachments/assets/ea129a5f-05fc-4206-8f03-e78d225b7e33)
 
 ### Add Feedback Page / Edit Feedback Page
-Simple form page that allows all users to create and own a feedback post. Includes a JS powered custom dropdown. (NOTE: Status is not an option as I decided only admins should be able to set the status of a feedback post)
+A simple form page that allows all users to create and own a feedback post. Includes a JS-powered custom dropdown. (NOTE: Status is not an option as I decided only admins should be able to set the status of a feedback post)
 ![chrome_5eOJFeNQgU](https://github.com/user-attachments/assets/32924cd0-b2e0-4cc2-91b0-a7b256e8ac3b)
 
-Allows the editing and deleting of posts only if the currently signed in user is the owner of the post or an admin.
+Allows the editing and deleting of posts only if the currently signed-in user is the owner of the post or an admin.
 ![chrome_AGyYv2AdoA](https://github.com/user-attachments/assets/cdb3a2a0-9e33-49bf-ad6c-84081f4e93f6)
 
 ### View Feedback Page
-View feedback page enables all users to upvote and post comments or reply to current comments. Admins will be given the ability in the top right to chnage the status of the feedback post here. Admins and owners of comments can also delete their comments.
+The view feedback page enables all users to upvote and post comments or reply to current comments. Admins will be given the ability in the top right to change the status of the feedback post here. Admins and owners of comments can also delete their comments.
 ![chrome_bHJwhGCF8K](https://github.com/user-attachments/assets/59f60e9b-e031-46e7-967b-6d4b13dd0863)
 
 ## Room for Improvement
-This project was quite extensive for both the front and back end, hence I do not have many things I would wanted changed or added. However, there are still are a few things including:
+This project was quite extensive for both the front and back end; hence, I do not have many things I would want changed or added. However, there are still a few things, including:
 
-* Admin panel for user CRUD operations and mdoeration: Not implemented due to the limitations of the frontend mentor design
-* A superior mobile layout: Not implemented due to low reward to time ratio
+* Admin panel for user CRUD operations and moderation: Not implemented due to the limitations of the Frontend Mentor design
+* A superior mobile layout: Not implemented due to a low reward-to-time ratio
 * Custom error pages
 
 ## Notes
