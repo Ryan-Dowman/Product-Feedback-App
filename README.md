@@ -1,4 +1,4 @@
-![Image](https://github.com/user-attachments/assets/28e8f30f-1b16-4266-ac19-26c211035394)
+![Group 20](https://github.com/user-attachments/assets/87300eec-d60b-42ad-bf18-a31300fc0f20)
 
 # Product Feedback App
 
