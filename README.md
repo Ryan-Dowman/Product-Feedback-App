@@ -47,5 +47,5 @@ This project was quite extensive for both the front and back end; hence, I do no
 * Custom error pages
 
 ## Notes
-Icons found in this project were from the Bootstrap Icons Library on Figma. (Link Below) 
+The design utilised was a paid for asset from the Frontend Mentor website. Icons found in this project were from the Bootstrap Icons Library on Figma. (Link Below) 
 https://www.figma.com/community/plugin/868341386266170307/bootstrap-icons
