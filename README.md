@@ -25,7 +25,7 @@ Including ordering and filtering functionality as well as the ability to upvote 
 ![chrome_DFrt9lDKSW](https://github.com/user-attachments/assets/73e52fb3-8103-48a3-89c4-43261c72007d)
 
 ### Roadmap Page
-Shows the status of each feedback post such that users can see the progress of each post (it excludes all posts that are of type Suggestion (the default type set on create))
+Shows the status of each feedback post so that users can see the progress of each post (it excludes all posts that are of type Suggestion (the default type set on create))
 ![chrome_5LlR532m8D](https://github.com/user-attachments/assets/ea129a5f-05fc-4206-8f03-e78d225b7e33)
 
 ### Add Feedback Page / Edit Feedback Page
