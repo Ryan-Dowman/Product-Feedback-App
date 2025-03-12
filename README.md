@@ -9,8 +9,6 @@
 - [Notes](#notes)
 
 ## Introduction
-### Disclaimer: The design I utilized by Frontend Mentor did not include any pages or designs related to this project being full-stack. Due to this, some common full-stack functionalities like an admin panel were omitted, as well as all backend-related content and pages, were my own creation and implementation. 
-
 A Full Stack Web App that functions as a forum for users of a system to post suggestions, issues, and potential changes for developers.
 
 ## Showcase
