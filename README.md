@@ -15,9 +15,6 @@ A Full Stack Web App that functions as a forum for users of a system to post sug
 ### Login Page / Registration Page
 Powered by Microsoft Identity and a designated AuthDb managed with SQL Server Management Studio. The registration page also enables image upload for profile pictures to the api/images route that locally stores the images and creates GUID names to ensure no naming conflicts.
 
-![chrome_O1NedSdDeZ](https://github.com/user-attachments/assets/c5e4e75a-5818-46a1-8dea-c2edbe1ed6dd)
-![chrome_45Qrj9t6pi](https://github.com/user-attachments/assets/63011d2b-f0b1-4694-8f09-09e3db5fa579)
-
 ### Home Page
 Including ordering and filtering functionality as well as the ability to upvote feedback posts directly from the home page.
 ![chrome_DFrt9lDKSW](https://github.com/user-attachments/assets/73e52fb3-8103-48a3-89c4-43261c72007d)
