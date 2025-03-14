@@ -38,8 +38,6 @@ The view feedback page enables all users to upvote and post comments or reply to
 This project was quite extensive for both the front and back end; hence, I do not have many things I would want changed or added. However, there are still a few things, including:
 
 * Admin panel for user CRUD operations and moderation: Not implemented due to the limitations of the Frontend Mentor design
-* A superior mobile layout: Not implemented due to a low reward-to-time ratio
-* Custom error pages
 
 ## Notes
 The design utilised was a paid for asset from the Frontend Mentor website. Icons found in this project were from the Bootstrap Icons Library on Figma. (Link Below) 
